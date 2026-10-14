@@ -1,0 +1,46 @@
+{
+  "tracked_workspace_files": 248,
+  "changed_workspace_files": [],
+  "upstream_changed_files": [],
+  "input_and_reference_hash_audit": {
+    "checks": 487,
+    "errors": []
+  },
+  "patch_sha256": "b360d5b5052bae0dcddc7b71992afc8aa1c022f7cba4eef61243a6e3ebe97b6a",
+  "real_inference_records": 19,
+  "real_inference_statuses": {
+    "success": 19
+  },
+  "real_inference_patch_versions": [
+    "b360d5b5052bae0dcddc7b71992afc8aa1c022f7cba4eef61243a6e3ebe97b6a"
+  ],
+  "workspace_build": {
+    "command": "npx -y xcodebuildmcp@2.6.2 macos build",
+    "exit_code": 0,
+    "elapsed_seconds": 9.6
+  },
+  "ui_and_midi_tests_run": false,
+  "focused_tests": [
+    {
+      "suite": "homr_runtime",
+      "passed": 48,
+      "log": "发布源码回归测试.log"
+    },
+    {
+      "suite": "runner",
+      "passed": 25,
+      "log": "运行工具测试.log"
+    },
+    {
+      "suite": "evaluation",
+      "passed": 17,
+      "log": "评估工具测试.log"
+    }
+  ],
+  "final_reports_sha256": {
+    "replay-release/summary.json": "1889e6ab2ee3ad4d1862285d41a6166beb3d44a637d3cbe0f605381173feb51a",
+    "replay-release/回放报告.md": "475a13840cbbf152a697ab31f628ec22ea24018328a586de2e36630629a547a7",
+    "inference-release-report/summary.json": "14002b059f3acdb6de231f392842b50128f5467ab0822f5eeac32ba4b426ede6",
+    "inference-release-report/推理回归报告.md": "c049573eba29618c3f10de2f7c29c31672526efcf7e3e51150f76125726f939d"
+  }
+}

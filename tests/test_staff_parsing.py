@@ -1,7 +1,16 @@
 import unittest
+from unittest.mock import patch
+
+import numpy as np
 
 from homr.model import MultiStaff, Staff, StaffPoint
-from homr.staff_parsing import _ensure_same_number_of_staffs, _get_number_of_voices
+from homr.staff_parsing import (
+    _ensure_same_number_of_staffs,
+    _get_number_of_voices,
+    parse_staffs,
+)
+from homr.transformer.configs import Config
+from homr.transformer.vocabulary import EncodedSymbol
 
 
 def make_staff(number: int, is_grandstaff: bool = False) -> Staff:
@@ -72,21 +81,21 @@ class TestStaffParsing(unittest.TestCase):
 
         self.assertEqual([[False, True]] * 4, _layouts(result))
 
-    def test_ensure_same_number_of_staffs_drops_leading_outlier(self) -> None:
-        # A single system at the very top that doesn't match the otherwise
-        # fully uniform rest of the page (e.g. the worst-detected staff).
+    def test_ensure_same_number_of_staffs_rejects_discarding_leading_staff(self) -> None:
+        # A different introduction is real music too; layout alone cannot
+        # establish that an edge staff is safe to discard.
         staffs = [make_row(0)] + [make_row(i, is_grandstaff=True) for i in range(1, 5)]
 
-        result = _ensure_same_number_of_staffs(staffs)
+        with self.assertRaisesRegex(ValueError, "1 leading and 0 trailing"):
+            _ensure_same_number_of_staffs(staffs)
+        self.assertEqual(5, len(staffs))
 
-        self.assertEqual([[True]] * 4, _layouts(result))
-
-    def test_ensure_same_number_of_staffs_drops_trailing_outlier(self) -> None:
+    def test_ensure_same_number_of_staffs_rejects_discarding_trailing_staff(self) -> None:
         staffs = [make_row(i, is_grandstaff=True) for i in range(4)] + [make_row(4)]
 
-        result = _ensure_same_number_of_staffs(staffs)
-
-        self.assertEqual([[True]] * 4, _layouts(result))
+        with self.assertRaisesRegex(ValueError, "0 leading and 1 trailing"):
+            _ensure_same_number_of_staffs(staffs)
+        self.assertEqual(5, len(staffs))
 
     def test_ensure_same_number_of_staffs_falls_back_to_break_apart(self) -> None:
         # No consistent per-system layout and no clean repeating pattern at
@@ -108,3 +117,73 @@ class TestStaffParsing(unittest.TestCase):
         )
         for row in result:
             self.assertEqual(1, len(row.staffs))
+
+    def test_parse_staffs_rejects_empty_detection_with_reason(self) -> None:
+        with self.assertRaisesRegex(ValueError, "No staff systems"):
+            parse_staffs(None, [], np.zeros((200, 200)), Config())
+
+    def test_parse_staffs_rejects_selection_outside_detected_systems(self) -> None:
+        with self.assertRaisesRegex(ValueError, "Selected staff 1.*1 detected"):
+            parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config(), selected_staff=1)
+
+    def test_parse_staffs_does_not_skip_an_unrecognized_middle_system(self) -> None:
+        note = EncodedSymbol("note_4", "C4", position="upper")
+        with (
+            patch("homr.staff_parsing.StaffRegions"),
+            patch(
+                "homr.staff_parsing.parse_staff_image", side_effect=[[note], [], [note]]
+            ) as inference,
+        ):
+            with self.assertRaisesRegex(ValueError, "Staff 1.*system 1.*no notes or rests"):
+                parse_staffs(None, [make_row(i) for i in range(3)], np.zeros((400, 200)), Config())
+            self.assertEqual(2, inference.call_count)
+
+    def test_parse_staffs_rejects_metadata_without_recognized_music(self) -> None:
+        with (
+            patch("homr.staff_parsing.StaffRegions"),
+            patch("homr.staff_parsing.parse_staff_image", return_value=[EncodedSymbol("clef_G2")]),
+        ):
+            with self.assertRaisesRegex(ValueError, "no notes or rests"):
+                parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
+
+    def test_parse_staffs_preserves_rest_only_result(self) -> None:
+        rest = EncodedSymbol("rest_1", position="upper")
+        with (
+            patch("homr.staff_parsing.StaffRegions"),
+            patch("homr.staff_parsing.parse_staff_image", return_value=[rest]),
+        ):
+            result = parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
+        self.assertEqual(["rest_1", "newline"], [symbol.rhythm for symbol in result[0]])
+
+    def test_parse_staffs_preserves_multimeasure_rest_result(self) -> None:
+        rest = EncodedSymbol("rest_4m", position="upper")
+        with (
+            patch("homr.staff_parsing.StaffRegions"),
+            patch("homr.staff_parsing.parse_staff_image", return_value=[rest]),
+        ):
+            result = parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
+        self.assertEqual(["rest_4m", "newline"], [symbol.rhythm for symbol in result[0]])
+
+    def test_selected_staff_uses_system_index_for_every_voice(self) -> None:
+        systems = [MultiStaff([make_staff(2 * i), make_staff(2 * i + 1)], []) for i in range(2)]
+        with (
+            patch("homr.staff_parsing.StaffRegions"),
+            patch(
+                "homr.staff_parsing.parse_staff_image",
+                side_effect=lambda debug, index, *args: [EncodedSymbol("rest_1", position="upper")],
+            ) as inference,
+        ):
+            result = parse_staffs(None, systems, np.zeros((400, 200)), Config(), selected_staff=1)
+        self.assertEqual([1, 3], [call.args[1] for call in inference.call_args_list])
+        self.assertEqual(2, len(result))
+        self.assertTrue(all(voice[0].rhythm == "rest_1" for voice in result))
+
+    def test_parse_staffs_adds_staff_location_to_inference_failure(self) -> None:
+        with (
+            patch("homr.staff_parsing.StaffRegions"),
+            patch(
+                "homr.staff_parsing.parse_staff_image", side_effect=RuntimeError("decoder failed")
+            ),
+        ):
+            with self.assertRaisesRegex(ValueError, "Staff 0.*system 0.*decoder failed"):
+                parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())

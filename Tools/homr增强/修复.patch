@@ -1,0 +1,1331 @@
+--- a/homr/main.py
++++ b/homr/main.py
+@@ -2,6 +2,7 @@
+ import glob
+ import os
+ import sys
++import tempfile
+ import xml.etree.ElementTree as ET
+ from concurrent.futures import Future
+ from dataclasses import dataclass
+@@ -44,7 +45,7 @@
+ from homr.staff_parsing import parse_staffs
+ from homr.staff_position_save_load import load_staff_positions, save_staff_positions
+ from homr.title_detection import detect_title, download_ocr_weights
+-from homr.transformer.configs import Config, default_config, root_dir
++from homr.transformer.configs import Config, default_config
+ from homr.type_definitions import NDArray
+ 
+ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+@@ -178,6 +179,21 @@
+     # Only helps across many images (slow one-time MLProgram compile).
+     coreml_encoder: bool
+     title_detection: bool
++
++
++def _write_xml_atomically(xml: ET.Element, output_path: str) -> None:
++    """Keep the previous result intact if serialization or replacement fails."""
++    temporary_path = None
++    try:
++        with tempfile.NamedTemporaryFile(
++            dir=os.path.dirname(os.path.abspath(output_path)), suffix=".xml.tmp", delete=False
++        ) as temporary:
++            temporary_path = temporary.name
++            ET.ElementTree(xml).write(temporary, encoding="UTF-8", xml_declaration=True)
++        os.replace(temporary_path, output_path)
++    finally:
++        if temporary_path is not None and os.path.exists(temporary_path):
++            os.remove(temporary_path)
+ 
+ 
+ def process_image(
+@@ -227,12 +243,15 @@
+         )
+ 
+         if not config.read_staff_positions:
+-            title = title_future.result(60)
++            try:
++                title = title_future.result(60)
++            except Exception as error:
++                eprint(f"Title detection failed: {type(error).__name__}: {error!r}; keeping music")
++                title = ""
+         eprint("Found title:", title)
+ 
+         eprint("Writing XML", result_staffs)
+         xml = generate_xml(xml_generator_args, result_staffs, title)
+-        ET.ElementTree(xml).write(xml_file, encoding="unicode", xml_declaration=True)
+ 
+         eprint("Finished parsing " + str(len(result_staffs)) + " staves")
+         teaser_file = replace_extension(image_path, "_teaser.png")
+@@ -242,11 +261,8 @@
+         debug.write_teaser(teaser_file, multi_staffs)
+         debug.clean_debug_files_from_previous_runs()
+ 
++        _write_xml_atomically(xml, xml_file)
+         eprint("Result was written to", xml_file)
+-    except:
+-        if os.path.exists(xml_file):
+-            os.remove(xml_file)
+-        raise
+     finally:
+         if debug_cleanup is not None:
+             debug_cleanup.clean_debug_files_from_previous_runs()
+@@ -386,6 +402,8 @@
+     Runs homr on all images in a list and merges them into musicxml using relieur
+     """
+     eprint("Merging", len(images), "files:", images)
++    if not images:
++        raise ValueError("No images to process")
+     xml_paths = []
+     filename = os.path.splitext(os.path.basename(images[0]))[0]
+     for image_file in images:
+@@ -394,17 +412,13 @@
+             xml_paths.append(process_image(image_file, config, xml_generator_args))
+             eprint("Finished", image_file)
+         except Exception as e:
+-            eprint(f"An error occurred while processing {image_file}: {e}")
+-            return  # Don't need to continue (save time)
++            eprint(f"An error occurred while processing {image_file}: {type(e).__name__}: {e!r}")
++            raise
+ 
+     if len(xml_paths) == len(images) and len(xml_paths) > 1:
+-        output_path = os.path.join(root_dir, f"{filename}_merged.musicxml")
++        output_path = os.path.join(os.path.dirname(images[0]), f"{filename}_merged.musicxml")
+         m, _, _ = process_concat(xml_paths)
+-        ET.ElementTree(m).write(output_path, encoding="UTF-8", xml_declaration=True)
+-
+-        for path in xml_paths:
+-            if os.path.exists(path):
+-                os.remove(path)
++        _write_xml_atomically(m, output_path)
+ 
+         eprint(f"Saved the generated musicxml at {output_path}")
+ 
+@@ -517,6 +531,7 @@
+         sys.exit(1)
+ 
+     images_to_combine = []
++    had_errors = False
+     for image in args.image:
+         if os.path.isfile(image):
+             # Multiple files are getting merged
+@@ -540,9 +555,12 @@
+                         process_image(image_file, config, xml_generator_args)
+                     eprint("Finished", image_file)
+                 except Exception as e:
+-                    eprint(f"An error occurred while processing {image_file}: {e}")
++                    eprint(
++                        f"An error occurred while processing {image_file}: {type(e).__name__}: {e!r}"
++                    )
+                     error_files.append(image_file)
+             if len(error_files) > 0:
++                had_errors = True
+                 eprint("Errors occurred while processing the following files:", error_files)
+ 
+         else:
+@@ -558,6 +576,9 @@
+             eprint(str(e))
+             sys.exit(2)
+ 
++    if had_errors:
++        sys.exit(1)
++
+ 
+ if __name__ == "__main__":
+     main()
+--- a/homr/music_xml_generator.py
++++ b/homr/music_xml_generator.py
+@@ -8,7 +8,6 @@
+ 
+ import numpy as np
+ 
+-from homr import constants
+ from homr.simple_logging import eprint
+ from homr.transformer.vocabulary import (
+     EncodedSymbol,
+@@ -22,7 +21,8 @@
+ 
+ class ConversionState:
+     def __init__(self, division: int, nominator: Fraction):
+-        self.beats = 4 * constants.duration_of_quarter
++        self.beats = max(int(nominator * 4), 1)
++        self.beat_type = 4
+         self.division = division
+         self.nominator = nominator
+         self.tremolo_state = "stop"
+@@ -49,9 +49,12 @@
+ 
+ 
+ class SymbolChord:
+-    def __init__(self, symbols: list[EncodedSymbol], tuplet_mark: str = "") -> None:
++    def __init__(
++        self, symbols: list[EncodedSymbol], tuplet_mark: str = "", unresolved: bool = False
++    ) -> None:
+         self.symbols = symbols
+         self.tuplet_mark = tuplet_mark
++        self.unresolved = unresolved
+ 
+     def __str__(self) -> str:
+         return str.join("&", [str(s) for s in self.symbols])
+@@ -60,7 +63,7 @@
+         return str(self)
+ 
+     def is_barline(self) -> bool:
+-        if len(self.symbols) == 0:
++        if self.unresolved or len(self.symbols) == 0:
+             return False
+         first_rhythm = self.symbols[0].rhythm
+         return "barline" in first_rhythm or "repeat" in first_rhythm
+@@ -147,15 +150,31 @@
+     clock = Fraction(0)
+     sounding: list[Fraction] = []
+ 
+-    def close_current_measure() -> None:
++    def close_current_measure() -> bool:
+         nonlocal clock, sounding
++        if not _measure_has_music(current_measure):
++            return False
+         rebalance_measure_voices(current_measure)
+         measures.append(current_measure)
+         clock, sounding = Fraction(0), []
++        return True
++
++    def next_measure() -> None:
++        nonlocal current_measure, measure_number, attributes
++        if close_current_measure():
++            measure_number += 1
++            current_measure = ET.Element("measure", number=str(measure_number))
++            attributes = None
++
++    def right_boundary_measure() -> ET.Element:
++        if not _measure_has_music(current_measure) and measures:
++            return measures[-1]
++        return current_measure
+ 
+     measure_number = 1
+     groups = add_tuplet_start_stop(group_into_chords(voice))
+     division, nominator = find_division_and_time_signature_nominator(groups)
++    meter_regions = infer_time_signature_regions(groups)
+     state = ConversionState(division, nominator)
+     measures: list[ET.Element] = []
+     current_measure = ET.Element("measure", number=str(measure_number))
+@@ -174,10 +193,53 @@
+         rhythm = symbol.rhythm
+         last_attributes = attributes
+         attributes = None
++        if group.unresolved:
++            for unresolved in group.symbols:
++                eprint(f"Unresolved symbol in measure {measure_number}:", unresolved)
++                direction = ET.SubElement(current_measure, "direction")
++                direction_type = ET.SubElement(direction, "direction-type")
++                ET.SubElement(direction_type, "words").text = (
++                    "未解析识别符号（请校正）：" + str(unresolved)
++                )
++                if unresolved.position in ("upper", "upper2", "lower", "lower2"):
++                    ET.SubElement(direction, "staff").text = str(get_staff(unresolved))
++                build_image_position(direction, unresolved)
++            continue
+         if rhythm.startswith(("note", "rest")):
+-            if len(group.symbols) == 1 and rhythm.endswith("m"):
++            multirests = [s for s in group.symbols if s.rhythm.endswith("m")]
++            if multirests:
++                counts = {int(s.rhythm.split("_")[1][:-1]) for s in multirests}
++                if (
++                    len(multirests) != len(group.symbols)
++                    or len(counts) != 1
++                    or next(iter(counts)) <= 0
++                    or any(not s.rhythm.startswith("rest_") for s in multirests)
++                ):
++                    raise ValueError(
++                        f"Unresolved multimeasure rest in measure {measure_number}: {group}"
++                    )
++                count = next(iter(counts))
++                if _measure_has_music(current_measure):
++                    next_measure()
++                    last_attributes = None
+                 attributes = build_or_get_attributes(current_measure, last_attributes)
+                 build_multi_measure_rest(symbol, attributes)
++                eprint(
++                    f"Expanding multimeasure rest in measure {measure_number}: "
++                    f"{count} measures of inferred {state.beats}/{state.beat_type}; verify meter"
++                )
++                # A multiple-rest is engraving over actual full-measure rests,
++                # not a replacement for their time-bearing MusicXML measures.
++                for _ in range(count):
++                    for rest_no, rest in enumerate(multirests):
++                        if rest_no:
++                            current_measure.append(
++                                build_backup(Fraction(state.beats, state.beat_type), state)
++                            )
++                        current_measure.append(
++                            build_full_measure_rest(rest, rest_no, state, measure_number)
++                        )
++                    next_measure()
+             else:
+                 staff_positions = group.into_positions()
+                 advance = _advance_to_next_group(group, clock, sounding)
+@@ -202,45 +264,42 @@
+             build_key(symbol, attributes)
+         elif rhythm.startswith("timeSignature"):
+             attributes = build_or_get_attributes(current_measure, last_attributes)
++            state.nominator = meter_regions.get(group_no, state.nominator)
+             build_time_signature(symbol, attributes, state)
+         elif "barline" in rhythm:
+             if rhythm != "barline":
+-                barline = build_or_get_barline(current_measure, "right")
++                barline = build_or_get_barline(right_boundary_measure(), "right")
+                 build_barline_style(symbol, barline)
+ 
+-            close_current_measure()
+-            measure_number += 1
+-            current_measure = ET.Element("measure", number=str(measure_number))
++            next_measure()
+         elif rhythm == "repeatStart":
+-            close_current_measure()
+-            measure_number += 1
+-            current_measure = ET.Element("measure", number=str(measure_number))
+-
+-            barline = build_or_get_barline(current_measure, "right")
++            next_measure()
++
++            barline = build_or_get_barline(current_measure, "left")
+             build_repeat(symbol, barline)
+         elif rhythm == "repeatEnd":
+-            barline = build_or_get_barline(current_measure, "right")
++            barline = build_or_get_barline(right_boundary_measure(), "right")
+             build_repeat(symbol, barline)
+ 
+-            close_current_measure()
+-            measure_number += 1
+-            current_measure = ET.Element("measure", number=str(measure_number))
++            next_measure()
+         elif rhythm == "repeatEndStart":
+-            barline = build_or_get_barline(current_measure, "right")
++            barline = build_or_get_barline(right_boundary_measure(), "right")
+             build_repeat(EncodedSymbol("repeatEnd"), barline)
+ 
+-            close_current_measure()
+-            measure_number += 1
+-            current_measure = ET.Element("measure", number=str(measure_number))
+-            barline = build_or_get_barline(current_measure, "right")
++            next_measure()
++            barline = build_or_get_barline(current_measure, "left")
+             build_repeat(EncodedSymbol("repeatStart"), barline)
+         elif rhythm.startswith("voltaStart"):
+             volta_number = state.start_volta(measure_number)
+             barline = build_or_get_barline(current_measure, "left")
+             build_barline_ending(symbol, barline, volta_number)
+         elif rhythm.startswith(("voltaStop", "voltaDiscontinue")):
+-            volta_number = state.stop_volta(measure_number)
+-            barline = build_or_get_barline(current_measure, "right")
++            # The training encoding emits a repeat end before the ending stop.
++            # A repeat end has already closed its musical measure, so attach the
++            # stop to that measure instead of inventing an empty one.
++            target_measure = right_boundary_measure()
++            volta_number = state.stop_volta(int(target_measure.get("number", "1")))
++            barline = build_or_get_barline(target_measure, "right")
+             build_barline_ending(symbol, barline, volta_number)
+         else:
+             eprint("Symbol isn't supported yet ", symbol)
+@@ -253,6 +312,13 @@
+         ET.SubElement(time_el, "beats").text = str(beats)
+         ET.SubElement(time_el, "beat-type").text = "4"
+     return measures
++
++
++def _measure_has_music(measure: ET.Element) -> bool:
++    return (
++        measure.find("note") is not None
++        or measure.find("attributes/measure-style/multiple-rest") is not None
++    )
+ 
+ 
+ def _advance_to_next_group(
+@@ -550,6 +616,7 @@
+     ET.SubElement(time, "beats").text = str(beats)
+     ET.SubElement(time, "beat-type").text = denominator
+     state.beats = beats
++    state.beat_type = int(denominator)
+ 
+ 
+ def build_barline_style(barline: EncodedSymbol, xml: ET.Element) -> None:
+@@ -737,6 +804,9 @@
+         time_mod = ET.SubElement(note, "time-modification")
+         ET.SubElement(time_mod, "actual-notes").text = str(model_duration.actual_notes)
+         ET.SubElement(time_mod, "normal-notes").text = str(model_duration.normal_notes)
++        ET.SubElement(time_mod, "normal-type").text = DURATION_NAMES[model_duration.kern]
++        for _ in range(model_duration.dots):
++            ET.SubElement(time_mod, "normal-dot")
+ 
+     staff_num = get_staff(model_note)
+     slur_number = staff_num
+@@ -775,6 +845,26 @@
+     backup = ET.Element("backup")
+     ET.SubElement(backup, "duration").text = str(max(1, int(duration * state.division)))
+     return backup
++
++
++def build_full_measure_rest(
++    symbol: EncodedSymbol, rhythmic_layer: int, state: ConversionState, measure_number: int
++) -> ET.Element:
++    duration = Fraction(state.beats, state.beat_type) * state.division
++    if duration <= 0 or duration.denominator != 1:
++        raise ValueError(
++            f"Unknown full-measure duration in measure {measure_number}: {symbol}"
++        )
++    note = ET.Element("note")
++    ET.SubElement(note, "rest", measure="yes")
++    ET.SubElement(note, "duration").text = str(duration.numerator)
++    staff_num = get_staff(symbol)
++    ET.SubElement(note, "voice").text = str(get_xml_voice(staff_num, rhythmic_layer))
++    ET.SubElement(note, "staff").text = str(staff_num)
++    build_articulations(note, symbol.articulation, "", state)
++    build_slurs(note, symbol.slur, staff_num)
++    build_image_position(note, symbol)
++    return note
+ 
+ 
+ def build_note_chord(
+@@ -858,24 +948,14 @@
+ 
+ def find_division_and_time_signature_nominator(voice: list[SymbolChord]) -> tuple[int, Fraction]:
+     durations = [Fraction(1, 4)]
+-    duration_in_measure = Fraction(0)
+-    measure_duration = []
+     for chord in voice:
+-        if chord.is_barline() and duration_in_measure > Fraction(0):
+-            measure_duration.append(duration_in_measure)
+-            duration_in_measure = Fraction(0)
+-        else:
+-            for symbol in chord.symbols:
+-                if symbol.rhythm.startswith(("note", "rest")):
+-                    frac = symbol.get_duration().fraction
+-                    if frac > Fraction(0):
+-                        durations.append(frac)
+-            duration = chord.get_duration()
+-            if duration > Fraction(0):
+-                duration_in_measure += duration
+-
+-    if duration_in_measure > Fraction(0):
+-        measure_duration.append(duration_in_measure)
++        for symbol in chord.symbols:
++            if symbol.rhythm.startswith(("note", "rest")):
++                frac = symbol.get_duration().fraction
++                if frac > Fraction(0):
++                    durations.append(frac)
++
++    measure_duration = _measure_durations(voice)
+ 
+     if len(measure_duration) == 0:
+         return find_common_division(durations), Fraction(1)
+@@ -885,8 +965,85 @@
+     return find_common_division(durations), nominator
+ 
+ 
++def _measure_durations(groups: list[SymbolChord]) -> list[Fraction]:
++    """Use the same sounding-note clock as XML generation, including sustained tails."""
++    durations: list[Fraction] = []
++    clock = Fraction(0)
++    sounding: list[Fraction] = []
++    for group in groups:
++        if group.is_barline() or any(s.rhythm.endswith("m") for s in group.symbols):
++            duration = max([clock, *sounding])
++            if duration > 0:
++                durations.append(duration)
++            clock, sounding = Fraction(0), []
++        elif group.symbols[0].rhythm.startswith(("note", "rest")):
++            clock += _advance_to_next_group(group, clock, sounding)
++            sounding = [end for end in sounding if end > clock]
++    duration = max([clock, *sounding])
++    if duration > 0:
++        durations.append(duration)
++    return durations
++
++
++def infer_time_signature_regions(groups: list[SymbolChord]) -> dict[int, Fraction]:
++    """The model encodes only the denominator; infer beats locally at each change."""
++    starts = [
++        i
++        for i, group in enumerate(groups)
++        if not group.unresolved and group.symbols[0].rhythm.startswith("timeSignature")
++    ]
++    result: dict[int, Fraction] = {}
++    for index, start in enumerate(starts):
++        end = starts[index + 1] if index + 1 < len(starts) else len(groups)
++        durations = _measure_durations(groups[start:end])
++        if durations:
++            result[start] = np.median(durations)  # type: ignore[assignment]
++    return result
++
++
+ def group_into_chords(voice: list[EncodedSymbol]) -> list[SymbolChord]:
+-    return [SymbolChord(s) for s in sort_token_chords(voice)]
++    result: list[SymbolChord] = []
++    for symbols in sort_token_chords(voice):
++        notes = [symbol for symbol in symbols if symbol.rhythm.startswith(("note", "rest"))]
++        controls = [symbol for symbol in symbols if not symbol.rhythm.startswith(("note", "rest"))]
++        invalid_controls = [
++            symbol for symbol in controls if not _control_symbol_is_resolved(symbol)
++        ]
++        controls = [symbol for symbol in controls if _control_symbol_is_resolved(symbol)]
++        # Invalid branch combinations (for example "barline C5 ... upper")
++        # are unresolved recognition, not evidence of a new measure. Preserve
++        # their fields visibly at this position without inventing note time.
++        for symbol in invalid_controls:
++            result.append(SymbolChord([symbol], unresolved=True))
++            if not notes:
++                # A standalone structural rhythm remains a boundary even if
++                # another decoder branch emitted unused notehead fields. Only
++                # a mixed musical group contradicts that boundary timing.
++                result.append(SymbolChord([symbol]))
++        if notes and controls:
++            # A decoder may group a clef on one staff with notes on the other.
++            # Keep the clef at that instant and all notes together; a clef is
++            # never a zero-duration rest or a reason to abort the whole page.
++            eprint("Preserving control symbols in musical group:", symbols)
++            result.extend(SymbolChord([symbol]) for symbol in controls)
++            result.append(SymbolChord(notes))
++        else:
++            remaining = notes or controls
++            if remaining:
++                result.append(SymbolChord(remaining))
++    return result
++
++
++def _control_symbol_is_resolved(symbol: EncodedSymbol) -> bool:
++    # Both historical placeholder forms ("." and "_") occur on clefs.
++    # Only a clef can carry a staff position; structural boundaries cannot
++    # carry note pitch, accidental, articulation, slur or staff-voice fields.
++    if any(
++        value not in (empty, nonote)
++        for value in (symbol.pitch, symbol.lift, symbol.articulation, symbol.slur)
++    ):
++        return False
++    return symbol.rhythm.startswith("clef") or symbol.position in (empty, nonote)
+ 
+ 
+ class TupletParser:
+--- a/homr/staff_parsing.py
++++ b/homr/staff_parsing.py
+@@ -98,6 +98,9 @@
+     core is exactly what's needed to discover the real, larger repeating pattern from
+     scratch - that's the case this function was originally written for, and it is never
+     already uniform at a row length above 1.
++
++    Reject a periodic core that would discard detected edge staffs: a layout
++    mismatch can be a real introduction or coda, not evidence of blank music.
+     """
+     row_lengths = {len(multi_staff.staffs) for multi_staff in staffs}
+     if len(row_lengths) == 1 and next(iter(row_lengths)) > 1:
+@@ -106,15 +109,11 @@
+     core = _find_periodic_core(flat_staffs)
+     if core is not None:
+         period, front_trim, back_trim = core
+-        if front_trim > 0:
+-            eprint(
+-                f"Removing the first {front_trim} staff(s), as they don't fit "
+-                "the staff layout the rest of the page repeats"
+-            )
+-        if back_trim > 0:
+-            eprint(
+-                f"Removing the last {back_trim} staff(s), as they don't fit "
+-                "the staff layout the rest of the page repeats"
++        if front_trim > 0 or back_trim > 0:
++            raise ValueError(
++                "Inconsistent staff layout would discard "
++                f"{front_trim} leading and {back_trim} trailing staff(s). "
++                "Verify the detected staff positions before recognition."
+             )
+         if period > 1:
+             eprint(
+@@ -388,7 +387,13 @@
+     page_to_input_image maps the coordinates of image back to the image the user provided,
+     it's used to fill EncodedSymbol.image_coordinates.
+     """
++    if not staffs or any(not staff.staffs for staff in staffs):
++        raise ValueError("No staff systems available for recognition")
+     staffs = _ensure_same_number_of_staffs(staffs)
++    if selected_staff >= len(staffs):
++        raise ValueError(
++            f"Selected staff {selected_staff} is outside {len(staffs)} detected system(s)"
++        )
+     # For simplicity we call every staff in a multi staff a voice,
+     # even if it's part of a grand staff.
+     number_of_voices = _get_number_of_voices(staffs)
+@@ -403,13 +408,15 @@
+                 eprint("Ignoring staff due to selected_staff argument", i)
+                 i += 1
+                 continue
+-            result_staff = parse_staff_image(
+-                debug, i, staff, image, regions, config, page_to_input_image
+-            )
+-            if len(result_staff) == 0:
+-                eprint("Skipping empty staff", i)
+-                i += 1
+-                continue
++            location = f"Staff {i} (system {staff_index}, voice {voice}, y={staff.min_y:.1f})"
++            try:
++                result_staff = parse_staff_image(
++                    debug, i, staff, image, regions, config, page_to_input_image
++                )
++            except Exception as error:
++                raise ValueError(f"{location}: {type(error).__name__}: {error}") from error
++            if not any(symbol.rhythm.startswith(("note_", "rest_")) for symbol in result_staff):
++                raise ValueError(f"{location}: recognition returned no notes or rests")
+             result_staff.append(EncodedSymbol("newline"))
+             result_for_voice.extend(result_staff)
+             i += 1
+--- a/homr/transformer/decoder_inference.py
++++ b/homr/transformer/decoder_inference.py
+@@ -116,6 +116,18 @@
+             slursp = outputs[5].numpy()
+             attention = outputs[6].numpy()
+ 
++            for name, logits in (
++                ("rhythm", rhythmsp),
++                ("pitch", pitchsp),
++                ("lift", liftsp),
++                ("position", positionsp),
++                ("articulation", articulationsp),
++                ("slur", slursp),
++                ("attention", attention),
++            ):
++                if not np.isfinite(logits).all():
++                    raise ValueError(f"Decoder {name} at step {step} contains non-finite logits")
++
+             rhythm_sample = np.array([[rhythmsp[:, -1, :].argmax()]])
+             pitch_sample = np.array([[pitchsp[:, -1, :].argmax()]])
+             lift_sample = np.array([[liftsp[:, -1, :].argmax()]])
+@@ -149,6 +161,11 @@
+             out_rhythm = np.concatenate((out_rhythm, rhythm_sample), axis=-1)
+             out_articulations = np.concatenate((out_articulations, articulation_sample), axis=-1)
+             out_slurs = np.concatenate((out_slurs, slur_sample), axis=-1)
++        else:
++            raise ValueError(
++                f"Decoder did not emit an end token within {self.max_seq_len} steps; "
++                "recognition is incomplete"
++            )
+ 
+         return symbols
+ 
+--- a/homr/transformer/vocabulary.py
++++ b/homr/transformer/vocabulary.py
+@@ -1,5 +1,6 @@
+ import copy
+ import itertools
++import json
+ import random
+ import re
+ from fractions import Fraction
+@@ -320,12 +321,17 @@
+         return self.rhythm in ("BOS", "EOS", "PAD")
+ 
+     def is_tuplet(self) -> bool:
++        if re.fullmatch(r"rest_\d+m", self.rhythm):
++            return False
+         no_tuplet = self.remove_tuplet()
+         return no_tuplet.rhythm != self.rhythm
+ 
+     def remove_tuplet(self) -> "EncodedSymbol":
+         match = re.match(r"(note|rest)_(\d+)(.*)", self.rhythm)
+         if not match:
++            return self
++        # 多小节休止符的数字是小节数量，不是连音分母。
++        if match[1] == "rest" and match[3] == "m":
+             return self
+         duration = int(match[2])
+         if duration % 3 == 0:
+@@ -601,8 +607,35 @@
+     result = []
+     for i, measure in enumerate(measures):
+         if _get_duration_of_measure(measure) < mean:
+-            eprint("Removing tuplets from measure #", i + 1)
+-            result.append(_remove_tuplets(measure))
++            cleaned = _remove_tuplets(measure)
++            changes = []
++            for chord_index, (before_chord, after_chord) in enumerate(
++                zip(measure, cleaned, strict=True)
++            ):
++                for symbol_index, (before, after) in enumerate(
++                    zip(before_chord, after_chord, strict=True)
++                ):
++                    if before.rhythm == after.rhythm:
++                        continue
++                    coordinates = before.image_coordinates
++                    changes.append(
++                        {
++                            "measure": i + 1,
++                            "chord_index": chord_index,
++                            "symbol_index": symbol_index,
++                            "before": str(before),
++                            "after": str(after),
++                            "position": before.position,
++                            "image_coordinates": (
++                                [float(value) for value in coordinates]
++                                if coordinates is not None
++                                else None
++                            ),
++                        }
++                    )
++            if changes:
++                eprint("Tuplet cleanup changes:", json.dumps(changes))
++            result.append(cleaned)
+         else:
+             result.append(measure)
+     return _flatten_measures(result)
+--- /dev/null
++++ b/tests/test_cli_regressions.py
+@@ -0,0 +1,102 @@
++import sys
++import tempfile
++import unittest
++import xml.etree.ElementTree as ET
++from pathlib import Path
++from concurrent.futures import Future
++from unittest.mock import Mock, patch
++
++from homr.main import (
++    ProcessingConfig,
++    _write_xml_atomically,
++    main,
++    process_image,
++    run_homr,
++)
++from homr.music_xml_generator import XmlGeneratorArguments
++
++
++class TestCliRegressions(unittest.TestCase):
++    def setUp(self):
++        self.config = ProcessingConfig(False, False, False, False, -1, False, False, False, False)
++        self.xml_args = XmlGeneratorArguments(False, None, None)
++
++    def test_failed_image_propagates_exception(self):
++        with patch("homr.main.process_image", side_effect=AssertionError("bad duration")):
++            with self.assertRaisesRegex(AssertionError, "bad duration"):
++                run_homr(["page.png"], self.config, self.xml_args)
++
++    def test_empty_image_list_is_rejected(self):
++        with self.assertRaisesRegex(ValueError, "No images"):
++            run_homr([], self.config, self.xml_args)
++
++    def test_failed_regeneration_preserves_previous_xml(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            image = Path(temporary) / "page.png"
++            prior = image.with_suffix(".musicxml")
++            prior.write_text("previous checked result")
++            with patch("homr.main.detect_staffs_in_image", side_effect=ValueError("unreadable")):
++                with self.assertRaises(ValueError):
++                    process_image(str(image), self.config, self.xml_args)
++            self.assertEqual(prior.read_text(), "previous checked result")
++
++    def test_serialization_failure_keeps_existing_and_cleans_temporary(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            output = Path(temporary) / "page.musicxml"
++            output.write_text("previous")
++            invalid = ET.Element("score")
++            invalid.text = object()
++            with self.assertRaises(TypeError):
++                _write_xml_atomically(invalid, str(output))
++            self.assertEqual(output.read_text(), "previous")
++            self.assertEqual(list(Path(temporary).iterdir()), [output])
++
++    def test_atomic_write_is_parseable(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            output = Path(temporary) / "page.musicxml"
++            _write_xml_atomically(ET.Element("score-partwise"), str(output))
++            self.assertEqual(ET.parse(output).getroot().tag, "score-partwise")
++
++    def test_merge_writes_beside_input_and_retains_pages(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            images = [str(Path(temporary) / name) for name in ("one.png", "two.png")]
++            pages = [str(Path(temporary) / name) for name in ("one.musicxml", "two.musicxml")]
++            for page in pages:
++                Path(page).write_text("original page")
++            with patch("homr.main.process_image", side_effect=pages), patch(
++                "homr.main.process_concat", return_value=(ET.Element("score-partwise"), None, None)
++            ):
++                run_homr(images, self.config, self.xml_args)
++            self.assertTrue((Path(temporary) / "one_merged.musicxml").is_file())
++            self.assertTrue(all(Path(p).is_file() for p in pages))
++
++    def test_title_failure_does_not_discard_music(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            image = str(Path(temporary) / "page.png")
++            title = Future()
++            title.set_exception(ValueError("empty OCR region"))
++            debug = Mock()
++            with patch("homr.main.detect_staffs_in_image", return_value=([], None, debug, title, None, None)), patch(
++                "homr.main.parse_staffs", return_value=[Mock()]
++            ), patch("homr.main.generate_xml", return_value=ET.Element("score-partwise")) as generator:
++                output = process_image(image, self.config, self.xml_args)
++            self.assertTrue(Path(output).is_file())
++            self.assertEqual(generator.call_args.args[2], "")
++
++    def test_directory_partial_failure_returns_nonzero_and_continues(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            files = [str(Path(temporary) / "bad.png"), str(Path(temporary) / "good.png")]
++            processor = Mock(side_effect=[ValueError("bad"), "good.musicxml"])
++            with patch.object(sys, "argv", ["homr", temporary, "--gpu", "no", "--no-title"]), patch(
++                "homr.main.download_weights"
++            ), patch("homr.main.get_all_image_files_in_folder", return_value=files), patch(
++                "homr.main.process_image", processor
++            ):
++                with self.assertRaises(SystemExit) as exit_result:
++                    main()
++            self.assertEqual(exit_result.exception.code, 1)
++            self.assertEqual(processor.call_count, 2)
++
++
++if __name__ == "__main__":
++    unittest.main()
+--- /dev/null
++++ b/tests/test_decoder_safety.py
+@@ -0,0 +1,90 @@
++import unittest
++from types import SimpleNamespace
++
++import numpy as np
++
++from homr.transformer.decoder_inference import ScoreDecoder
++
++
++class FakeBinding:
++    def __init__(self, steps: list[list[np.ndarray]]) -> None:
++        self.steps = steps
++        self.index = -1
++
++    def bind_cpu_input(self, *args) -> None:
++        pass
++
++    def bind_ortvalue_input(self, *args) -> None:
++        pass
++
++    def bind_output(self, *args) -> None:
++        pass
++
++    def get_outputs(self) -> list[SimpleNamespace]:
++        return [SimpleNamespace(numpy=lambda value=value: value) for value in self.steps[self.index]]
++
++
++class FakeSession:
++    def __init__(self, steps: list[list[np.ndarray]]) -> None:
++        self.binding = FakeBinding(steps)
++
++    def io_binding(self) -> FakeBinding:
++        return self.binding
++
++    def run_with_iobinding(self, iobinding: FakeBinding) -> None:
++        iobinding.index += 1
++
++
++def outputs(rhythm: int = 0) -> list[np.ndarray]:
++    rhythm_logits = np.zeros((1, 1, 3), dtype=np.float32)
++    rhythm_logits[0, 0, rhythm] = 1
++    return [rhythm_logits] + [np.ones((1, 1, 1), dtype=np.float32) for _ in range(6)]
++
++
++def make_decoder(steps: list[list[np.ndarray]]) -> ScoreDecoder:
++    config = SimpleNamespace(
++        max_seq_len=len(steps),
++        eos_token=2,
++        rhythm_vocab={"note_4": 0, "<s>": 1, "</s>": 2},
++        pitch_vocab={"C4": 0},
++        lift_vocab={"_": 0},
++        articulation_vocab={"_": 0},
++        slur_vocab={"_": 0},
++        position_vocab={"upper": 0},
++        decoder_depth=0,
++        decoder_heads=1,
++        decoder_dim=1,
++    )
++    return ScoreDecoder(FakeSession(steps), False, False, config)
++
++
++def generate(decoder: ScoreDecoder):
++    return decoder.generate(
++        np.array([[1]], dtype=np.int64),
++        np.array([[0]], dtype=np.int64),
++        context=np.zeros((1, 2, 1), dtype=np.float32),
++    )
++
++
++class TestDecoderSafety(unittest.TestCase):
++    def test_eos_at_limit_preserves_completed_prediction(self) -> None:
++        result = generate(make_decoder([outputs(), outputs(2)]))
++        self.assertEqual(["note_4"], [symbol.rhythm for symbol in result])
++
++    def test_sequence_limit_is_not_reported_as_completed_prediction(self) -> None:
++        with self.assertRaisesRegex(ValueError, "end token.*2.*incomplete"):
++            generate(make_decoder([outputs(), outputs()]))
++
++    def test_nonfinite_logits_identify_head_and_step(self) -> None:
++        for head, name in enumerate(
++            ("rhythm", "pitch", "lift", "position", "articulation", "slur", "attention")
++        ):
++            for invalid in (np.nan, np.inf, -np.inf):
++                with self.subTest(head=name, invalid=invalid):
++                    step = outputs()
++                    step[head][0, 0, 0] = invalid
++                    with self.assertRaisesRegex(ValueError, f"{name}.*step 0.*non-finite"):
++                        generate(make_decoder([step, outputs(2)]))
++
++    def test_immediate_eos_is_empty_and_not_truncated(self) -> None:
++        self.assertEqual([], generate(make_decoder([outputs(2)])))
+--- /dev/null
++++ b/tests/test_music_xml_regressions.py
+@@ -0,0 +1,241 @@
++"""Runtime-only regressions for preserving recognized music during XML export."""
++
++import unittest
++from fractions import Fraction
++from xml.etree import ElementTree as ET
++
++from homr.music_xml_generator import XmlGeneratorArguments, generate_xml
++from homr.transformer.vocabulary import EncodedSymbol
++
++
++def tokens(lines: str) -> list[EncodedSymbol]:
++    result: list[EncodedSymbol] = []
++    for line in lines.strip().splitlines():
++        for index, entry in enumerate(line.split("&")):
++            if index:
++                result.append(EncodedSymbol("chord"))
++            result.append(EncodedSymbol(*entry.strip().split()))
++    return result
++
++
++def export(lines: str) -> list[ET.Element]:
++    root = generate_xml(XmlGeneratorArguments(), [tokens(lines)], "")
++    return root.findall("part/measure")
++
++
++def onsets(measure: ET.Element) -> list[tuple[str, Fraction]]:
++    division = int(measure.findtext("attributes/divisions", "1"))
++    cursor, previous = Fraction(0), Fraction(0)
++    result = []
++    for child in measure:
++        duration = Fraction(int(child.findtext("duration", "0")), division)
++        if child.tag == "backup":
++            cursor -= duration
++        elif child.tag == "forward":
++            cursor += duration
++        elif child.tag == "note":
++            start = previous if child.find("chord") is not None else cursor
++            if child.find("chord") is None:
++                previous = cursor
++                cursor += duration
++            if child.find("pitch") is not None:
++                name = child.findtext("pitch/step") + child.findtext("pitch/octave")
++                result.append((name, start))
++    return result
++
++
++class TestMusicXmlRegressions(unittest.TestCase):
++    def test_pure_multimeasure_rest_expands_count_and_full_duration(self) -> None:
++        measures = export("""
++rest_3m _ _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 3)
++        self.assertEqual(measures[0].findtext("attributes/measure-style/multiple-rest"), "3")
++        for measure in measures:
++            note = measure.find("note")
++            self.assertEqual(note.find("rest").get("measure"), "yes")
++            self.assertEqual(note.findtext("duration"), "4")
++
++    def test_multimeasure_rest_keeps_surrounding_music_and_inferred_meter(self) -> None:
++        measures = export("""
++timeSignature/4 . . . . .
++note_2. C4 _ _ _ upper
++barline . . . . .
++rest_3m _ _ _ _ upper
++barline . . . . .
++note_2. D4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 5)
++        self.assertEqual(measures[0].findtext("attributes/time/beats"), "3")
++        self.assertEqual(measures[0].findtext("note/pitch/step"), "C")
++        self.assertEqual(measures[4].findtext("note/pitch/step"), "D")
++        for measure in measures[1:4]:
++            self.assertEqual(measure.findtext("note/duration"), "3")
++
++    def test_grandstaff_multimeasure_rests_share_each_measure_time(self) -> None:
++        measures = export("""
++clef_G2 _ _ _ _ upper&clef_F4 _ _ _ _ lower
++rest_2m _ _ _ _ upper&rest_2m _ _ _ _ lower
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 2)
++        for measure in measures:
++            self.assertEqual([n.findtext("staff") for n in measure.findall("note")], ["1", "2"])
++            self.assertEqual(measure.findtext("backup/duration"), "4")
++
++    def test_inconsistent_multimeasure_rest_reports_location(self) -> None:
++        with self.assertRaisesRegex(ValueError, "measure 1") as error:
++            export("rest_2m _ _ _ _ upper&rest_3m _ _ _ _ lower")
++        self.assertIn("rest_2m", str(error.exception))
++        self.assertIn("rest_3m", str(error.exception))
++
++    def test_repeat_end_after_barline_belongs_to_previous_music(self) -> None:
++        measures = export("""
++note_1 C4 _ _ _ upper
++barline . . . . .
++repeatEnd . . . . .
++note_1 D4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 2)
++        self.assertEqual(measures[0].find("barline/repeat").get("direction"), "backward")
++        self.assertIsNone(measures[1].find("barline/repeat"))
++
++    def test_multimeasure_rest_and_repeat_end_preserve_final_boundary(self) -> None:
++        measures = export("""
++rest_2m _ _ _ _ upper
++barline . . . . .
++repeatEndStart . . . . .
++note_1 D4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 3)
++        self.assertEqual(measures[1].find("barline/repeat").get("direction"), "backward")
++        self.assertEqual(measures[2].find("barline/repeat").get("direction"), "forward")
++        self.assertEqual(measures[2].find("barline").get("location"), "left")
++
++    def test_invalid_boundary_in_note_group_does_not_shift_later_measures(self) -> None:
++        measures = export("""
++note_4 C4 _ _ _ upper
++note_8 G4 _ _ _ upper&barline C5 _ _ _ upper
++barline . . . . .
++note_4 D4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 2)
++        self.assertEqual([n.findtext("pitch/step") for n in measures[0].findall("note")],
++                         ["C", "G"])
++        unresolved = measures[0].findtext("direction/direction-type/words")
++        self.assertIn("barline C5", unresolved)
++        self.assertEqual(measures[1].findtext("note/pitch/step"), "D")
++
++    def test_standalone_boundary_with_extra_branch_fields_keeps_boundary(self) -> None:
++        measures = export("""
++note_1 C4 _ _ _ upper
++barline F4 . . . .
++note_1 D4 _ _ _ upper
++barline . _ _ _ upper
++note_1 E4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 3)
++        self.assertEqual([m.findtext("note/pitch/step") for m in measures], ["C", "D", "E"])
++        self.assertIn("barline F4", measures[0].findtext("direction/direction-type/words"))
++        self.assertIn("barline . _", measures[1].findtext("direction/direction-type/words"))
++
++    def test_clef_in_note_group_preserves_notes_and_attribute(self) -> None:
++        measures = export("""
++clef_G2 _ _ _ _ upper&clef_F4 _ _ _ _ lower
++note_8 E4 # _ _ upper&clef_G2 _ _ _ _ lower&note_8 C5 _ _ _ lower
++note_8 F4 # _ _ upper&note_8 D5 _ _ _ lower
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 1)
++        self.assertEqual(len(measures[0].findall("note")), 4)
++        self.assertEqual(onsets(measures[0]), [("E4", Fraction(0)), ("C5", Fraction(0)),
++                                                ("F4", Fraction(1, 2)), ("D5", Fraction(1, 2))])
++        self.assertEqual(measures[0].findall("attributes/clef")[-1].findtext("sign"), "G")
++
++    def test_leading_repeat_is_left_barline_without_empty_measure(self) -> None:
++        measures = export("""
++clef_G2 _ _ _ _ upper
++keySignature_0 . . . . .
++repeatStart . . . . .
++timeSignature/4 . . . . .
++note_1 C4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(len(measures), 1)
++        repeat = measures[0].find("barline/repeat")
++        self.assertIsNotNone(repeat)
++        self.assertEqual(measures[0].find("barline").get("location"), "left")
++        self.assertEqual(repeat.get("direction"), "forward")
++
++    def test_repeat_ending_stays_with_music_before_following_barline(self) -> None:
++        measures = export("""
++voltaStart . . . . .
++note_1 C4 _ _ _ upper
++repeatEnd . . . . .
++voltaStop . . . . .
++barline . . . . .
++voltaStart . . . . .
++note_1 D4 _ _ _ upper
++voltaDiscontinue . . . . .
++barline . . . . .
++newline . . . . .
++""")
++        self.assertEqual(len(measures), 2)
++        endings = [m.findall("barline/ending") for m in measures]
++        self.assertEqual([(e.get("type"), e.get("number")) for e in endings[0]],
++                         [("start", "1"), ("stop", "1")])
++        self.assertEqual([(e.get("type"), e.get("number")) for e in endings[1]],
++                         [("start", "2"), ("discontinue", "2")])
++
++    def test_meter_uses_all_sounding_notes(self) -> None:
++        measures = export("""
++clef_G2 _ _ _ _ upper&clef_F4 _ _ _ _ lower
++timeSignature/4 . . . . .
++note_4 C5 _ _ _ upper&note_8 C3 _ _ _ lower
++note_4 E3 _ _ _ lower
++note_4 D5 _ _ _ upper
++note_8 G3 _ _ _ lower
++note_2 E5 _ _ _ upper&note_2 C3 _ _ _ lower
++barline . . . . .
++""")
++        self.assertEqual(measures[0].findall("attributes/time")[-1].findtext("beats"), "4")
++
++    def test_meter_change_infers_each_region_separately(self) -> None:
++        measures = export("""
++timeSignature/4 . . . . .
++note_1 C4 _ _ _ upper
++barline . . . . .
++note_1 C4 _ _ _ upper
++barline . . . . .
++note_1 C4 _ _ _ upper
++barline . . . . .
++timeSignature/4 . . . . .
++note_2. D4 _ _ _ upper
++barline . . . . .
++note_2. D4 _ _ _ upper
++barline . . . . .
++""")
++        self.assertEqual(measures[0].findall("attributes/time")[-1].findtext("beats"), "4")
++        self.assertEqual(measures[3].findtext("attributes/time/beats"), "3")
++
++    def test_tuplet_normal_type_and_dots_are_preserved(self) -> None:
++        measures = export("""
++note_12. C4 _ _ _ upper
++note_12. D4 _ _ _ upper
++note_12. E4 _ _ _ upper
++barline . . . . .
++""")
++        for note in measures[0].findall("note"):
++            modification = note.find("time-modification")
++            self.assertEqual(modification.findtext("normal-type"), "eighth")
++            self.assertEqual(len(modification.findall("normal-dot")), 1)
++
++
++if __name__ == "__main__":
++    unittest.main()
+--- a/tests/test_staff_parsing.py
++++ b/tests/test_staff_parsing.py
+@@ -1,7 +1,12 @@
+ import unittest
++from unittest.mock import patch
++
++import numpy as np
+ 
+ from homr.model import MultiStaff, Staff, StaffPoint
+-from homr.staff_parsing import _ensure_same_number_of_staffs, _get_number_of_voices
++from homr.staff_parsing import _ensure_same_number_of_staffs, _get_number_of_voices, parse_staffs
++from homr.transformer.configs import Config
++from homr.transformer.vocabulary import EncodedSymbol
+ 
+ 
+ def make_staff(number: int, is_grandstaff: bool = False) -> Staff:
+@@ -72,21 +77,21 @@
+ 
+         self.assertEqual([[False, True]] * 4, _layouts(result))
+ 
+-    def test_ensure_same_number_of_staffs_drops_leading_outlier(self) -> None:
+-        # A single system at the very top that doesn't match the otherwise
+-        # fully uniform rest of the page (e.g. the worst-detected staff).
++    def test_ensure_same_number_of_staffs_rejects_discarding_leading_staff(self) -> None:
++        # A different introduction is real music too; layout alone cannot
++        # establish that an edge staff is safe to discard.
+         staffs = [make_row(0)] + [make_row(i, is_grandstaff=True) for i in range(1, 5)]
+ 
+-        result = _ensure_same_number_of_staffs(staffs)
++        with self.assertRaisesRegex(ValueError, "1 leading and 0 trailing"):
++            _ensure_same_number_of_staffs(staffs)
++        self.assertEqual(5, len(staffs))
+ 
+-        self.assertEqual([[True]] * 4, _layouts(result))
+-
+-    def test_ensure_same_number_of_staffs_drops_trailing_outlier(self) -> None:
++    def test_ensure_same_number_of_staffs_rejects_discarding_trailing_staff(self) -> None:
+         staffs = [make_row(i, is_grandstaff=True) for i in range(4)] + [make_row(4)]
+ 
+-        result = _ensure_same_number_of_staffs(staffs)
+-
+-        self.assertEqual([[True]] * 4, _layouts(result))
++        with self.assertRaisesRegex(ValueError, "0 leading and 1 trailing"):
++            _ensure_same_number_of_staffs(staffs)
++        self.assertEqual(5, len(staffs))
+ 
+     def test_ensure_same_number_of_staffs_falls_back_to_break_apart(self) -> None:
+         # No consistent per-system layout and no clean repeating pattern at
+@@ -108,3 +113,61 @@
+         )
+         for row in result:
+             self.assertEqual(1, len(row.staffs))
++
++    def test_parse_staffs_rejects_empty_detection_with_reason(self) -> None:
++        with self.assertRaisesRegex(ValueError, "No staff systems"):
++            parse_staffs(None, [], np.zeros((200, 200)), Config())
++
++    def test_parse_staffs_rejects_selection_outside_detected_systems(self) -> None:
++        with self.assertRaisesRegex(ValueError, "Selected staff 1.*1 detected"):
++            parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config(), selected_staff=1)
++
++    def test_parse_staffs_does_not_skip_an_unrecognized_middle_system(self) -> None:
++        note = EncodedSymbol("note_4", "C4", position="upper")
++        with patch("homr.staff_parsing.StaffRegions"), patch(
++            "homr.staff_parsing.parse_staff_image", side_effect=[[note], [], [note]]
++        ) as inference:
++            with self.assertRaisesRegex(ValueError, "Staff 1.*system 1.*no notes or rests"):
++                parse_staffs(None, [make_row(i) for i in range(3)], np.zeros((400, 200)), Config())
++            self.assertEqual(2, inference.call_count)
++
++    def test_parse_staffs_rejects_metadata_without_recognized_music(self) -> None:
++        with patch("homr.staff_parsing.StaffRegions"), patch(
++            "homr.staff_parsing.parse_staff_image", return_value=[EncodedSymbol("clef_G2")]
++        ):
++            with self.assertRaisesRegex(ValueError, "no notes or rests"):
++                parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
++
++    def test_parse_staffs_preserves_rest_only_result(self) -> None:
++        rest = EncodedSymbol("rest_1", position="upper")
++        with patch("homr.staff_parsing.StaffRegions"), patch(
++            "homr.staff_parsing.parse_staff_image", return_value=[rest]
++        ):
++            result = parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
++        self.assertEqual(["rest_1", "newline"], [symbol.rhythm for symbol in result[0]])
++
++    def test_parse_staffs_preserves_multimeasure_rest_result(self) -> None:
++        rest = EncodedSymbol("rest_4m", position="upper")
++        with patch("homr.staff_parsing.StaffRegions"), patch(
++            "homr.staff_parsing.parse_staff_image", return_value=[rest]
++        ):
++            result = parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
++        self.assertEqual(["rest_4m", "newline"], [symbol.rhythm for symbol in result[0]])
++
++    def test_selected_staff_uses_system_index_for_every_voice(self) -> None:
++        systems = [MultiStaff([make_staff(2 * i), make_staff(2 * i + 1)], []) for i in range(2)]
++        with patch("homr.staff_parsing.StaffRegions"), patch(
++            "homr.staff_parsing.parse_staff_image",
++            side_effect=lambda debug, index, *args: [EncodedSymbol("rest_1", position="upper")],
++        ) as inference:
++            result = parse_staffs(None, systems, np.zeros((400, 200)), Config(), selected_staff=1)
++        self.assertEqual([1, 3], [call.args[1] for call in inference.call_args_list])
++        self.assertEqual(2, len(result))
++        self.assertTrue(all(voice[0].rhythm == "rest_1" for voice in result))
++
++    def test_parse_staffs_adds_staff_location_to_inference_failure(self) -> None:
++        with patch("homr.staff_parsing.StaffRegions"), patch(
++            "homr.staff_parsing.parse_staff_image", side_effect=RuntimeError("decoder failed")
++        ):
++            with self.assertRaisesRegex(ValueError, "Staff 0.*system 0.*decoder failed"):
++                parse_staffs(None, [make_row(0)], np.zeros((200, 200)), Config())
+--- /dev/null
++++ b/tests/test_vocabulary_regressions.py
+@@ -0,0 +1,101 @@
++"""连音清理必须保留多小节休止符数量。"""
++import json
++import unittest
++from unittest.mock import patch
++
++from homr.music_xml_generator import XmlGeneratorArguments, generate_xml
++
++from homr.transformer.vocabulary import (
++    EncodedSymbol,
++    _fix_over_eager_tuplets,
++    _get_duration_of_measure,
++)
++
++
++class TestVocabularyRegressions(unittest.TestCase):
++    def test_multimeasure_rest_count_is_never_a_tuplet_denominator(self):
++        for count in range(2, 11):
++            with self.subTest(count=count):
++                symbol = EncodedSymbol(f"rest_{count}m", position="upper")
++                self.assertFalse(symbol.is_tuplet())
++                cleaned = symbol.remove_tuplet()
++                self.assertEqual(f"rest_{count}m", cleaned.rhythm)
++                self.assertEqual(symbol.get_duration(), cleaned.get_duration())
++
++    def test_short_multirest_placeholder_survives_full_measure_cleanup(self):
++        for count in range(2, 11):
++            with self.subTest(count=count):
++                multirest = [[EncodedSymbol(f"rest_{count}m", position="upper")],
++                             [EncodedSymbol("barline")]]
++                long_measure = [[EncodedSymbol("note_2.", "C4", position="upper")],
++                                [EncodedSymbol("note_2.", "D4", position="upper")],
++                                [EncodedSymbol("barline")]]
++                self.assertLess(_get_duration_of_measure(multirest),
++                                _get_duration_of_measure(long_measure))
++                result = _fix_over_eager_tuplets(multirest + long_measure + long_measure)
++                self.assertEqual(f"rest_{count}m", result[0][0].rhythm)
++
++    def test_normal_tuplet_cleanup_still_converts_notes_and_rests(self):
++        for prefix in ("note", "rest"):
++            for original, expected in ((12, 8), (24, 16), (20, 16), (28, 16)):
++                with self.subTest(prefix=prefix, original=original):
++                    symbol = EncodedSymbol(f"{prefix}_{original}", "C4", position="upper")
++                    self.assertTrue(symbol.is_tuplet())
++                    self.assertEqual(f"{prefix}_{expected}", symbol.remove_tuplet().rhythm)
++                    self.assertEqual(f"{prefix}_{original}", symbol.rhythm)
++
++    def test_regular_rhythms_and_controls_are_preserved(self):
++        for rhythm in ("note_4", "note_8.", "rest_0", "rest_4", "clef_G2", "barline"):
++            with self.subTest(rhythm=rhythm):
++                symbol = EncodedSymbol(rhythm, "C4", position="upper")
++                self.assertFalse(symbol.is_tuplet())
++                self.assertEqual(rhythm, symbol.remove_tuplet().rhythm)
++
++    def test_multimeasure_rests_never_generate_time_modification(self):
++        for count in range(2, 11):
++            with self.subTest(count=count):
++                symbols = [EncodedSymbol(f"rest_{count}m", position="upper"),
++                           EncodedSymbol("barline")]
++                xml = generate_xml(XmlGeneratorArguments(), [symbols], "")
++                self.assertEqual(count, len(xml.findall("part/measure")))
++                self.assertEqual([], xml.findall(".//time-modification"))
++                self.assertEqual([], xml.findall(".//tuplet"))
++
++    def test_tuplet_cleanup_noop_does_not_log_removing_music(self):
++        short = [[EncodedSymbol("note_4", "C4", position="upper")],
++                 [EncodedSymbol("barline")]]
++        full = [[EncodedSymbol("note_1", "D4", position="upper")],
++                [EncodedSymbol("barline")]]
++        with patch("homr.transformer.vocabulary.eprint") as logger:
++            result = _fix_over_eager_tuplets(short + full + full)
++        logger.assert_not_called()
++        self.assertEqual("note_4", result[0][0].rhythm)
++
++    def test_tuplet_cleanup_log_preserves_original_tokens_and_locations(self):
++        note = EncodedSymbol("note_12", "C4", "#", slur="slurStart", position="upper")
++        note.image_coordinates = (10.5, 20.25)
++        partner = EncodedSymbol("note_24", "E3", position="lower")
++        short = [[EncodedSymbol("clef_G2", position="upper")], [note, partner],
++                 [EncodedSymbol("barline")]]
++        full = [[EncodedSymbol("note_1", "D4", position="upper")],
++                [EncodedSymbol("barline")]]
++        with patch("homr.transformer.vocabulary.eprint") as logger:
++            result = _fix_over_eager_tuplets(short + full + full)
++        logger.assert_called_once()
++        self.assertEqual("Tuplet cleanup changes:", logger.call_args.args[0])
++        changes = json.loads(logger.call_args.args[1])
++        self.assertEqual(2, len(changes))
++        self.assertEqual({"measure": 1, "chord_index": 1, "symbol_index": 0,
++                          "before": str(note), "after": str(result[1][0]),
++                          "position": "upper", "image_coordinates": [10.5, 20.25]}, changes[0])
++        self.assertEqual(1, changes[1]["symbol_index"])
++        self.assertIsNone(changes[1]["image_coordinates"])
++        self.assertEqual("note_12", note.rhythm)
++        self.assertEqual("note_8", result[1][0].rhythm)
++        self.assertEqual("note_16", result[1][1].rhythm)
++        recovered = [chord.copy() for chord in result]
++        for change in changes:
++            fields = change["before"].split()
++            recovered[change["chord_index"]][change["symbol_index"]] = EncodedSymbol(*fields)
++        self.assertEqual([[str(symbol) for symbol in chord] for chord in short],
++                         [[str(symbol) for symbol in chord] for chord in recovered[:len(short)]])

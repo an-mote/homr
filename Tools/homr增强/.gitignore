@@ -1,0 +1,3 @@
+# 本机 Python 缓存不作为修复交付内容。
+__pycache__/
+*.py[cod]

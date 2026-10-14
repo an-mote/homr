@@ -1,0 +1,12 @@
+{
+  "input_sha256": "f2e86d1758a954a968bd010dd9946f8f2ca94cb4e11eb53ee2a850b98d0d05a6",
+  "output_sha256": "7a40c00dcf58801e8e7c7d38eb00b6be51a177c2cd6f209f6e056ec82c5076c3",
+  "measure_count": 8,
+  "note_count": 64,
+  "pitch_note_count": 64,
+  "musicxml_basic_validation": "passed",
+  "network": "none",
+  "model_inference_performed": true,
+  "human_musical_review_completed": false,
+  "notice": "合成双谱表样本的实际执行与XML结构检查，不代表真实照片准确率。"
+}

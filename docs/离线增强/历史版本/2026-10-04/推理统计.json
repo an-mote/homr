@@ -1,0 +1,1143 @@
+{
+  "schema_version": 1,
+  "mode": "fixed_subset_real_inference",
+  "generated_at_utc": "2026-10-03T17:03:07.516646+00:00",
+  "full_manifest_samples": 164,
+  "selected_manifest_samples": 19,
+  "attempted_samples": 19,
+  "terminal_attempts": 19,
+  "successful_inference_samples": 19,
+  "worker_runtime_records": 19,
+  "not_selected_samples": 145,
+  "full_manifest_accuracy_eligible_samples": 158,
+  "full_manifest_invalid_reference_fixture_samples": 1,
+  "full_manifest_unverified_local_samples": 5,
+  "inference_status_counts": {
+    "success": 19
+  },
+  "groups": {
+    "local": {
+      "full_manifest_denominator": 5,
+      "selected_manifest_denominator": 0,
+      "inference_status_counts": {},
+      "old_raw_selected": {
+        "manifest_denominator": 0,
+        "primary_accuracy_eligible_samples": 0,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 0,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 0,
+          "correct": 0,
+          "rate": null
+        }
+      },
+      "new_inference_selected": {
+        "manifest_denominator": 0,
+        "primary_accuracy_eligible_samples": 0,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 0,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 0,
+          "correct": 0,
+          "rate": null
+        }
+      },
+      "selected_metric_changes": {
+        "pitch_time_f1": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        },
+        "strict_f1": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        },
+        "scope_f1": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        },
+        "correction_free_measure_rate": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        }
+      }
+    },
+    "public": {
+      "full_manifest_denominator": 112,
+      "selected_manifest_denominator": 10,
+      "inference_status_counts": {
+        "success": 10
+      },
+      "old_raw_selected": {
+        "manifest_denominator": 10,
+        "primary_accuracy_eligible_samples": 10,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 9,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": 0.5669787790295142,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": 0.44550259345446674,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": 0.725016211274263,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": 0.02261494252873563,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 242,
+          "correct": 4,
+          "rate": 0.01652892561983471
+        }
+      },
+      "new_inference_selected": {
+        "manifest_denominator": 10,
+        "primary_accuracy_eligible_samples": 10,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 10,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": 0.639894642186292,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": 0.4906181682147944,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": 0.807305329924981,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": 0.02584074898034854,
+            "manifest_reference_denominator": 10,
+            "resolved": 10,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 242,
+          "correct": 5,
+          "rate": 0.02066115702479339
+        }
+      },
+      "selected_metric_changes": {
+        "pitch_time_f1": {
+          "comparable_samples": 10,
+          "improved_samples": 2,
+          "declined_samples": 0,
+          "unchanged_samples": 8,
+          "declined": [],
+          "improved": [
+            {
+              "id": "polish-076",
+              "before": 0.0,
+              "after": 0.7284427284427284,
+              "delta": 0.7284427284427284
+            },
+            {
+              "id": "polish-093",
+              "before": 0.6214039125431531,
+              "after": 0.6221198156682027,
+              "delta": 0.000715903125049655
+            }
+          ]
+        },
+        "strict_f1": {
+          "comparable_samples": 10,
+          "improved_samples": 2,
+          "declined_samples": 0,
+          "unchanged_samples": 8,
+          "declined": [],
+          "improved": [
+            {
+              "id": "polish-076",
+              "before": 0.0,
+              "after": 0.45045045045045046,
+              "delta": 0.45045045045045046
+            },
+            {
+              "id": "polish-093",
+              "before": 0.6121979286536249,
+              "after": 0.6129032258064516,
+              "delta": 0.0007052971528267449
+            }
+          ]
+        },
+        "scope_f1": {
+          "comparable_samples": 10,
+          "improved_samples": 2,
+          "declined_samples": 3,
+          "unchanged_samples": 5,
+          "declined": [
+            {
+              "id": "polish-075",
+              "before": 0.6375358166189111,
+              "after": 0.6325214899713467,
+              "delta": -0.005014326647564404
+            },
+            {
+              "id": "polish-081",
+              "before": 0.8917438125826563,
+              "after": 0.8906102399395428,
+              "delta": -0.001133572643113534
+            },
+            {
+              "id": "polish-000",
+              "before": 0.9395101799940986,
+              "after": 0.9386249631159634,
+              "delta": -0.0008852168781351422
+            }
+          ],
+          "improved": [
+            {
+              "id": "polish-076",
+              "before": 0.0,
+              "after": 0.8288319284362635,
+              "delta": 0.8288319284362635
+            },
+            {
+              "id": "polish-093",
+              "before": 0.8717146433041302,
+              "after": 0.8728070175438597,
+              "delta": 0.001092374239729521
+            }
+          ]
+        },
+        "correction_free_measure_rate": {
+          "comparable_samples": 10,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 9,
+          "declined": [],
+          "improved": [
+            {
+              "id": "polish-076",
+              "before": 0.0,
+              "after": 0.03225806451612903,
+              "delta": 0.03225806451612903
+            }
+          ]
+        }
+      }
+    },
+    "resolution_diagnostic": {
+      "full_manifest_denominator": 7,
+      "selected_manifest_denominator": 0,
+      "inference_status_counts": {},
+      "old_raw_selected": {
+        "manifest_denominator": 0,
+        "primary_accuracy_eligible_samples": 0,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 0,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 0,
+          "correct": 0,
+          "rate": null
+        }
+      },
+      "new_inference_selected": {
+        "manifest_denominator": 0,
+        "primary_accuracy_eligible_samples": 0,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 0,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": null,
+            "manifest_reference_denominator": 0,
+            "resolved": 0,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 0,
+          "correct": 0,
+          "rate": null
+        }
+      },
+      "selected_metric_changes": {
+        "pitch_time_f1": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        },
+        "strict_f1": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        },
+        "scope_f1": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        },
+        "correction_free_measure_rate": {
+          "comparable_samples": 0,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": []
+        }
+      }
+    },
+    "stress": {
+      "full_manifest_denominator": 28,
+      "selected_manifest_denominator": 1,
+      "inference_status_counts": {
+        "success": 1
+      },
+      "old_raw_selected": {
+        "manifest_denominator": 1,
+        "primary_accuracy_eligible_samples": 1,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 0,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": 0.0,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": 0.0,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": 0.0,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": 0.0,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 20,
+          "correct": 0,
+          "rate": 0.0
+        }
+      },
+      "new_inference_selected": {
+        "manifest_denominator": 1,
+        "primary_accuracy_eligible_samples": 1,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 1,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": 0.1288723667905824,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": 0.11648079306071871,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": 0.6559862187769164,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": 0.0,
+            "manifest_reference_denominator": 1,
+            "resolved": 1,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 20,
+          "correct": 0,
+          "rate": 0.0
+        }
+      },
+      "selected_metric_changes": {
+        "pitch_time_f1": {
+          "comparable_samples": 1,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": [
+            {
+              "id": "stress-polish-001-blur",
+              "before": 0.0,
+              "after": 0.1288723667905824,
+              "delta": 0.1288723667905824
+            }
+          ]
+        },
+        "strict_f1": {
+          "comparable_samples": 1,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": [
+            {
+              "id": "stress-polish-001-blur",
+              "before": 0.0,
+              "after": 0.11648079306071871,
+              "delta": 0.11648079306071871
+            }
+          ]
+        },
+        "scope_f1": {
+          "comparable_samples": 1,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 0,
+          "declined": [],
+          "improved": [
+            {
+              "id": "stress-polish-001-blur",
+              "before": 0.0,
+              "after": 0.6559862187769164,
+              "delta": 0.6559862187769164
+            }
+          ]
+        },
+        "correction_free_measure_rate": {
+          "comparable_samples": 1,
+          "improved_samples": 0,
+          "declined_samples": 0,
+          "unchanged_samples": 1,
+          "declined": [],
+          "improved": []
+        }
+      }
+    },
+    "synthetic": {
+      "full_manifest_denominator": 12,
+      "selected_manifest_denominator": 8,
+      "inference_status_counts": {
+        "success": 8
+      },
+      "old_raw_selected": {
+        "manifest_denominator": 8,
+        "primary_accuracy_eligible_samples": 8,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 8,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": 0.880859375,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": 0.880859375,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": 0.933077025300969,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": 0.484375,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 64,
+          "correct": 31,
+          "rate": 0.484375
+        }
+      },
+      "new_inference_selected": {
+        "manifest_denominator": 8,
+        "primary_accuracy_eligible_samples": 8,
+        "invalid_reference_fixture_samples": 0,
+        "valid_xml_outputs": 8,
+        "metrics": {
+          "pitch_time_f1": {
+            "value": 1.0,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "strict_f1": {
+            "value": 1.0,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "scope_f1": {
+            "value": 0.973806952443382,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          },
+          "correction_free_measure_rate": {
+            "value": 0.546875,
+            "manifest_reference_denominator": 8,
+            "resolved": 8,
+            "unresolved": 0,
+            "interpretation": "replay_manifest_sample_mean"
+          }
+        },
+        "time_measures_micro": {
+          "reference": 64,
+          "correct": 35,
+          "rate": 0.546875
+        }
+      },
+      "selected_metric_changes": {
+        "pitch_time_f1": {
+          "comparable_samples": 8,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 7,
+          "declined": [],
+          "improved": [
+            {
+              "id": "synthetic-11-directions",
+              "before": 0.046875,
+              "after": 1.0,
+              "delta": 0.953125
+            }
+          ]
+        },
+        "strict_f1": {
+          "comparable_samples": 8,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 7,
+          "declined": [],
+          "improved": [
+            {
+              "id": "synthetic-11-directions",
+              "before": 0.046875,
+              "after": 1.0,
+              "delta": 0.953125
+            }
+          ]
+        },
+        "scope_f1": {
+          "comparable_samples": 8,
+          "improved_samples": 2,
+          "declined_samples": 0,
+          "unchanged_samples": 6,
+          "declined": [],
+          "improved": [
+            {
+              "id": "synthetic-11-directions",
+              "before": 0.7251995438996579,
+              "after": 0.9828571428571429,
+              "delta": 0.25765759895748497
+            },
+            {
+              "id": "synthetic-04-tuplets",
+              "before": 0.8380681818181818,
+              "after": 0.90625,
+              "delta": 0.06818181818181823
+            }
+          ]
+        },
+        "correction_free_measure_rate": {
+          "comparable_samples": 8,
+          "improved_samples": 1,
+          "declined_samples": 0,
+          "unchanged_samples": 7,
+          "declined": [],
+          "improved": [
+            {
+              "id": "synthetic-11-directions",
+              "before": 0.0,
+              "after": 0.5,
+              "delta": 0.5
+            }
+          ]
+        }
+      }
+    }
+  },
+  "subset_attempts_terminal": true,
+  "subset_all_successful": true,
+  "metric_changes": {
+    "pitch_time_f1": {
+      "comparable_samples": 19,
+      "improved_samples": 4,
+      "declined_samples": 0,
+      "unchanged_samples": 15,
+      "declined": [],
+      "improved": [
+        {
+          "id": "synthetic-11-directions",
+          "before": 0.046875,
+          "after": 1.0,
+          "delta": 0.953125
+        },
+        {
+          "id": "polish-076",
+          "before": 0.0,
+          "after": 0.7284427284427284,
+          "delta": 0.7284427284427284
+        },
+        {
+          "id": "stress-polish-001-blur",
+          "before": 0.0,
+          "after": 0.1288723667905824,
+          "delta": 0.1288723667905824
+        },
+        {
+          "id": "polish-093",
+          "before": 0.6214039125431531,
+          "after": 0.6221198156682027,
+          "delta": 0.000715903125049655
+        }
+      ]
+    },
+    "strict_f1": {
+      "comparable_samples": 19,
+      "improved_samples": 4,
+      "declined_samples": 0,
+      "unchanged_samples": 15,
+      "declined": [],
+      "improved": [
+        {
+          "id": "synthetic-11-directions",
+          "before": 0.046875,
+          "after": 1.0,
+          "delta": 0.953125
+        },
+        {
+          "id": "polish-076",
+          "before": 0.0,
+          "after": 0.45045045045045046,
+          "delta": 0.45045045045045046
+        },
+        {
+          "id": "stress-polish-001-blur",
+          "before": 0.0,
+          "after": 0.11648079306071871,
+          "delta": 0.11648079306071871
+        },
+        {
+          "id": "polish-093",
+          "before": 0.6121979286536249,
+          "after": 0.6129032258064516,
+          "delta": 0.0007052971528267449
+        }
+      ]
+    },
+    "scope_f1": {
+      "comparable_samples": 19,
+      "improved_samples": 5,
+      "declined_samples": 3,
+      "unchanged_samples": 11,
+      "declined": [
+        {
+          "id": "polish-075",
+          "before": 0.6375358166189111,
+          "after": 0.6325214899713467,
+          "delta": -0.005014326647564404
+        },
+        {
+          "id": "polish-081",
+          "before": 0.8917438125826563,
+          "after": 0.8906102399395428,
+          "delta": -0.001133572643113534
+        },
+        {
+          "id": "polish-000",
+          "before": 0.9395101799940986,
+          "after": 0.9386249631159634,
+          "delta": -0.0008852168781351422
+        }
+      ],
+      "improved": [
+        {
+          "id": "polish-076",
+          "before": 0.0,
+          "after": 0.8288319284362635,
+          "delta": 0.8288319284362635
+        },
+        {
+          "id": "stress-polish-001-blur",
+          "before": 0.0,
+          "after": 0.6559862187769164,
+          "delta": 0.6559862187769164
+        },
+        {
+          "id": "synthetic-11-directions",
+          "before": 0.7251995438996579,
+          "after": 0.9828571428571429,
+          "delta": 0.25765759895748497
+        },
+        {
+          "id": "synthetic-04-tuplets",
+          "before": 0.8380681818181818,
+          "after": 0.90625,
+          "delta": 0.06818181818181823
+        },
+        {
+          "id": "polish-093",
+          "before": 0.8717146433041302,
+          "after": 0.8728070175438597,
+          "delta": 0.001092374239729521
+        }
+      ]
+    },
+    "correction_free_measure_rate": {
+      "comparable_samples": 19,
+      "improved_samples": 2,
+      "declined_samples": 0,
+      "unchanged_samples": 17,
+      "declined": [],
+      "improved": [
+        {
+          "id": "synthetic-11-directions",
+          "before": 0.0,
+          "after": 0.5,
+          "delta": 0.5
+        },
+        {
+          "id": "polish-076",
+          "before": 0.0,
+          "after": 0.03225806451612903,
+          "delta": 0.03225806451612903
+        }
+      ]
+    }
+  },
+  "regression_ids": [
+    "synthetic-00-grandstaff",
+    "synthetic-02-voices",
+    "synthetic-04-tuplets",
+    "synthetic-07-ties",
+    "synthetic-08-pickup",
+    "synthetic-09-changes",
+    "synthetic-10-ornaments",
+    "synthetic-11-directions",
+    "polish-000",
+    "polish-003",
+    "polish-020",
+    "polish-040",
+    "polish-069",
+    "polish-076",
+    "stress-polish-001-blur",
+    "polish-093",
+    "polish-081",
+    "polish-103",
+    "polish-075"
+  ],
+  "frozen_hashes": {
+    "manifest": "282227ce4ec30b9e4d89000af75c36efd80bd982e72c16f744dc39b351e3679e",
+    "scoring_source": "0d5f5f32a4a98b159bd9b6c6e7419117f7676411764d5641e2159d8baaeeafcf",
+    "reporting_source": "7e0cccf624d8d3968e5398ea3e0d4a255b65dc22ddc62073114f4130d82823d2",
+    "runtime_lock": "38f055effdd67d3701ae611f3adc1f87cbf6fe6e6f582c2634a2d1f32c0b66d7",
+    "fixture_reference_audit": "817c3099c2bd234f7bc61ecc4fb553f1ac7fe19d4a8ce85669ba57b5d06f97d9",
+    "old_summary": "bd737e2769f3cdde495f456d5ce973f4d4306a5f9527bbc4246d14b02fb822d8",
+    "sample_report_sha256": {
+      "polish-000": "15b5c6f17348d2853914a87ac1e98c91db8f415908ba350fe27ee528e137b9ff",
+      "polish-001": "cca4c3b1ac541f51986a8b52e276d285a74f13139fb9e53773867febb8f8f7a7",
+      "polish-002": "e480c97cb7233e90b6d471b95365a68c253810855aa97efc8447f9f0e19e9b41",
+      "polish-003": "3b49109a31188c02db96d447294f4fd0db9fe7a1201d04062fe4685729de4c8d",
+      "polish-004": "77197a4866b1592681e83bf1bd5f6240c784d6464b35e7ee6f759d1ffb42907a",
+      "polish-005": "b9ec08a468eb717b6ffa27f39678892d482bbac2eef1a04f0f24aa75bf712960",
+      "polish-006": "f96681dcf651686fa10e0191a8472c85c084e55e1ef03f44cf66131d0dd7ebe2",
+      "polish-007": "6d69c0cd6d76ab253d003a18ba1aac154f3b2d4551014eeb6474e7c7d11719ed",
+      "polish-008": "26d5e54b2b6b6aefa9ef0556ba0b539e25e157d6dce9582d7b7fbe8e9590015b",
+      "polish-009": "76ba46142075b6c5df224fd07699a63a2aae514ff59b4c0290ab6312a0d335ff",
+      "polish-010": "dd54a085f6fa2bdb6c04317d5def38b8b363515fa3decd69b3c00697d9567a1e",
+      "polish-011": "e91f28731b2567d2f02eddd431cf270635e5a75ce2480fce1218c2da4175db46",
+      "polish-012": "baed8d755281e31db28da9b02ad76321bb4c7f7beac55552f3ddd3d6ff2f1c3e",
+      "polish-013": "fc947919fdda0e2498135eaa5c90c3ea2537d9b48ea45cef6bce41ef77f6f6ea",
+      "polish-014": "e03b5a3b18faf52fd4c3b1a7038c18d3920c922367eff2cdc49cfcab2493821e",
+      "polish-015": "741441b6e1d293e90b449ed3b85441af462836b32a2db025132d92e462cac2a2",
+      "polish-016": "b31acff6cf3f9d4bbadce0c87caca62c5c755107ef4ebebbe2a6b9ecb1063230",
+      "polish-017": "cc82458e22751e5ee94628d5821b46f4e1548e372f0f7cb273fd6c9ca5a9d54d",
+      "polish-018": "4573d1df54fe055a589cfb0fe79ac3d86ae4e43cc0dfedbefc250faba976c0a4",
+      "polish-019": "797ecb1b0ae31be1b4bd0d227f4f83de90fa2339d21efbe9ed63bf351f9694dd",
+      "polish-020": "75c9c1fd7df23e6a62d5738c33fb0c05b4d6cac64d6e0e5a19431f3e4941e569",
+      "polish-021": "a3f2d8d9cab6ceb5cd68ecc059a8188d343971c706f94044ac8d309ddc4dee0a",
+      "polish-022": "a341c867c037fac1a266f910f6535fe2283bf2ab69102770b7b12d404e641cad",
+      "polish-023": "5f91794f555656a70ab1ff320cba684e44c7efd8efad6905afa5a0862b62a8dc",
+      "polish-024": "e91e3017e774a51d9a3d2ec3dd37692c63f6f1d3e9f8f5bf6a8ffdd5225c6680",
+      "polish-025": "e15732c335c6e6dfec4adbae0ff6689ba23ee4126011bdf84e1bb7104c93f5fa",
+      "polish-026": "4dc67d41815e999c8ad5004984d8170a2beb58d449da2774ebc65ed3a145a191",
+      "polish-027": "e92cbaf31054a3499fad4fe2aa7bf74cd769e57dbfb9b8b483ab20e6d731b085",
+      "polish-028": "8aaa2cc2de2cdc24a43db9841b375dca354483e8c8ce4e354a557b28fb7d14cb",
+      "polish-029": "5ba160768211c3b931558675ddbea7da5e2c6756804573270f63cdfd9495e4dc",
+      "polish-030": "2e7ffef59de4b98c42b2062bd1f5d3ae89c88bca6be179f900bbd98060b6932b",
+      "polish-031": "d9bdaaa046e79c2b797730c248bcdcac114ca8648d10bf4a91f135aec2f2cdaf",
+      "polish-032": "6afdd4f6e32396e524cdf6aced69b2e6c6b97436b60b1888f0ffd05cc7e55685",
+      "polish-033": "5031e56e389d4528f5010f406facffdf58a09405bd99755296379ccb6038fbad",
+      "polish-034": "9478797ef1781e75cf1ceacc1a27f94cf88fce4ab18877f50e1b1b09877741a5",
+      "polish-035": "cec41cd74592c1c2ace09ffc2978ac68380b8a41d3d3b5ca5c670d1214a86de2",
+      "polish-036": "411c3536e8451e27f337c7eb073b35693f76492974ee2fa415285d7e9a042760",
+      "polish-037": "02db5482303eb674c9d886bd394c817e1a90475850801e63c7d0826716407361",
+      "polish-038": "b8121856501257f1f69706f0f4253dc996e8d12221caeed95cc2ad2614c3a46c",
+      "polish-039": "b54477c1a9680add652de84f1b01dedb73bbad44fe1dfa3c6d683c6ea80868a8",
+      "polish-040": "44fe0a8af6d7dab3cef1aa91a0fa6def2100d6131a2782941a074eacc45e22cb",
+      "polish-041": "6708c57280500fc47798664598d2448fa0c7570e345904da6f4f2dd8195bbabf",
+      "polish-042": "b39f7012451bd77fd4b0cd1d8919bacd79a1ef945aab0a2e76cfb3b47605ae5b",
+      "polish-043": "76ffa42adee2f07c4bb942723a6d993874b886804daed16a91646bed5497f767",
+      "polish-044": "0bce970aed1bcf1782bc06b34bba3d29a94d814312b1c5da8fb92a680f4370fa",
+      "polish-045": "33866b78bfc05bb2f53759d1a78e567340596b1dcc8478772cb19615d4e70255",
+      "polish-046": "b18b55c60d635eb098e980d9d728fa98cb73710ab8a94cd9f809ec4663850979",
+      "polish-047": "895ccd48fd6544160bf828b9ecd3659f6be5b7dd4af855d7aafe319723a66998",
+      "polish-048": "12695ebe8b5bf70be992df81ca6cd7a507b44644f65d0f824de8c20790d72209",
+      "polish-049": "6ed9fa20be3ff1d475f5ce1f2452dac2ed6f3f14197c8f3b3df536ca948658a6",
+      "polish-050": "8737b40505fd622fa1d38f7ce17e64f0b6f1c70a23da89b2f8f058ac62ca7af5",
+      "polish-051": "db292b4926d46b4ff4ff2a5eaa60ea078607562c2fafe6a3b1ae9d95cac4cafc",
+      "polish-052": "a922f40eb9f02a6779e575af41662284999627003a0d32a696d8dc211580ff91",
+      "polish-053": "759580aef3e5e38cbdb6be39d1fd8c645448305ce0daeac3bfdfbb56add89959",
+      "polish-054": "e24f25998eb3ce9eed3c2a6e12e9ef508ba8cb6e7a597ec6ace5ea6ff23ac247",
+      "polish-055": "9758795c02a529bb38d8a483bf9cf58db21296514b180d377301db4e361954c0",
+      "polish-056": "0bba73421c429035fa7f34ee372f20ab5d7b31322e21ca982a5c5d103a34950e",
+      "polish-057": "10f86bbe5a8666fc0da429f9350cca7af8ba36dca078cc9476089f532090d239",
+      "polish-058": "bca729a45fa2793f0001d22c45a6f16ecabaafa621b39f769b746cccdb47b4eb",
+      "polish-059": "09d52dc00daaedf33f84719cb32765e1bb3afc5e82b09fa5a3b1007cd595baad",
+      "polish-060": "8184eead78016ecd47150388e3c9cea01cd5ad696bb810d5b6612a51d7371f01",
+      "polish-061": "0582d0265eebec8636c4badf14f369d3d7221fa79409e534ab7fb914ad0a7239",
+      "polish-062": "d5cf652420021ee0d7de4ba79d3b6a02493d6bbc3256060cd086968ffc49dfef",
+      "polish-063": "030cac13ad4374a7dc683527844e4cf22b12053cb29dfabb2dfa7fcde6c59056",
+      "polish-064": "fbb31a2fda779e82ab8ed59e5baff945c0e51c4346618f4935998b4efd5c2758",
+      "polish-065": "14ee0ac5a1817613949902cfc64caca6c19bab08bb33bef26ec4c6fad3c6d2c3",
+      "polish-066": "3072c904eda93aec76774e753150cf1d295b81310832bef003a964bab50a0484",
+      "polish-067": "08c9e5fd50cc98c888e8d0a94df580d8d902ae6412faeeb77bc8b4f6efa53553",
+      "polish-068": "033cb2c2703fc6dee185957bd9023092b86c7ad6494976933d08b9d4059850aa",
+      "polish-069": "6f88e68fa622ac58f4403e53156549380509efa0122ea56dfa11a70b5dbb262c",
+      "polish-070": "e7365c9ed9eb5d8f2cab916c108e7794623659be43eb3ad6090e174e03e8ab83",
+      "polish-071": "bbd232c3e8df7ee172cc69293536218137df657e17697153e2425be25d6782f0",
+      "polish-072": "3ec908c2e449dcd5713a12fc0624a725c47a1e5fa1a001c62c3e4e3b1c59b664",
+      "polish-073": "a77513e7026d34aee1ca3f38780d856b86f2a2f54ce39eeede95b72bae065bd2",
+      "polish-074": "65857546a2d22071992a2967aea2986f22652173b204edcd9e7c2491242b3129",
+      "polish-075": "c48010a9e3020ebdd53ab616583b1b9d07a0d372ade121dc786e176498cdb907",
+      "polish-076": "2af9df06528d8172d187a76f588f571e4c18556090f41cd4cca9064426a987ce",
+      "polish-077": "52d4443e428286a0a250acd7f740471f91798cd8027f33d9f1ab56a449efc9b6",
+      "polish-078": "37dc6d5f7b55c3aa0834452e3300db6c77f15f0d350cb411d7ba4ec6d85833d2",
+      "polish-079": "a3c2212bc1b95880002ef94d1b5300160711bf02a8f34b8a0d50a5937c1ebf1e",
+      "polish-080": "11212429a2d6d19bc110f97e946ceb8d0f5b5374354a70bb1ca21285e59c42dd",
+      "polish-081": "b3c4d485f5b0577cb20ed0a3fe6063d4b45b5f4af5adc94502ac7dbc20ce2af8",
+      "polish-082": "7209c866fc910bf7fbd12ef34711feca496a9613154885efb983587d14f9792c",
+      "polish-083": "dfac0847ba74326c695622f78d56622af3924cdbb271a3c4ce6c23462117385e",
+      "polish-084": "27614e337c1bfd5b1945646152bd23f0fd4f2b933fc3175583bddfccfdd61de5",
+      "polish-085": "e5d35ff8a1c15892c3a537e9fb622cc63c413e975eb9801fedcda04449a3053e",
+      "polish-086": "b1f5a68a80019404d9a623d5701faa857df89de68d8785fbe86b2e3089a9658e",
+      "polish-087": "daab759fe5ec08bd552708ffd1fb65ae74013a63c7444ac5c5d59ad081dea118",
+      "polish-088": "e88e57f9d603df94787a3eb62b5dfdd0a67c746d9d9022630dadb72997f4828b",
+      "polish-089": "0cf806f697edb88bbd4958a61cb771bbbe90a2396b85283679fdf1b0677e6486",
+      "polish-090": "64c879cf61a7bf50041d427d2aa01f4d3c81b256ec8b2747c1582e8d25c3e149",
+      "polish-091": "aa9374aa12c642fc41c15ae630aa9b5e6bdd927a7abce1e7b968d8b76634c042",
+      "polish-092": "dd3b975ce0bd4011bb84c1af73e902935593ee7da0f43da11b1534456c8087f9",
+      "polish-093": "e1321f6ec7e4838da64c521cdca66a91e9b9d4e4b34b1938ca4850ed6e704f24",
+      "polish-094": "26a7788b3d00cb0350ce2acd483bb38a3e4e0f105f8147d821dd268cb105ae85",
+      "polish-095": "e6330fef95370cc80d6d7747633bdde2fc7ea5e0e31206479120c75819e0a004",
+      "polish-096": "b6bb3910d04a72e1f144177355a8e8399f0ff715797ee81ac452fdf37344c9bd",
+      "polish-097": "c4afa8536ac7196695bb7b7f74f05ebf86c9cb50bd7f5c958220b706a571d5c9",
+      "polish-098": "e0486c139d132a2cf282e2863fa06f9e57ba0479d1617d1dec3b28f37a2258c2",
+      "polish-099": "b5f60f1cc34a37ef9f077dbb059f66efdae34bf555d0c9506ab3235c0ffcd6ef",
+      "polish-100": "53f04ead01a021dd0475a10cf070434636da961d2525d7ba7d8716b9dfcb104f",
+      "polish-101": "94d00e3235e04b0890c903038937c435f005bdc60dee05dba1d9ab8b0e8371a7",
+      "polish-102": "af873420891922a71f69178696b986a396a1fdd501f3fb780ded2387b5631152",
+      "polish-103": "1d6b65efad33d7189bf8708ec15dd9beae5fb0d8b60d777f6ea7f13d5d512f5a",
+      "polish-104": "1c30c51887d095c72c005575cc2d10ff918dcb7969741ed618858413a2ab87c7",
+      "polish-105": "f8c17fa2d733832547eb5248ea32829a9a4e002a79c2bfed3ed1f06b80386f92",
+      "polish-106": "bcfb6b831700e266cf3bfca85811e243ee6bfe7aca5bc8589d6f2ab84a2ea487",
+      "polish-107": "1e961cdda270c69ff2851ea545ef9483684e74f63e04aecc82765edde6d0c21c",
+      "polish-108": "cdfa711584c9bced796f5b528a60bfe4fc09a1393c6a8617d04f104acfa51d70",
+      "polish-109": "7076a6bc119198d11911374d2259aee692e450fbab7717d57d503f663452089a",
+      "polish-110": "cbb56d3efffde560e5e6c9f20e06a06d81d4cd5765e302e075d4b51900a02905",
+      "polish-111": "28687b3b049ebd0f6cd8279a1e359c05b5fc8b9d53fa6a9071dc7d3270423d0c",
+      "dream-01": "4f8280025f990f19434b046c564a211ec0331a7a848c67c43f649a16b513069c",
+      "dream-02": "bf81465264c7289a69344414c33d237d9dcf28519b6021984bbfd672251e478a",
+      "dream-03": "7863ebb92423fcd573982ba98b03a4de58c3a88c80055dd5c0fc72d49c061ee8",
+      "dream-04": "06483184e3dbba9b86dc153a615edf87d581ea8f9d6814ceb8bf54b330ed2fd9",
+      "allegretto": "e320aa721711abf2cb818126e1e2ac2f4cdd7a4f5d2f15e5cfd4ff4949e81677",
+      "synthetic-00-grandstaff": "e932d087de9fccbbf7e7829cbce4ce57cbf77d6f63d17983b683f4132579a5df",
+      "synthetic-01-chords": "a0449f72141f4f8dffffc2f6c0ab9244a6c05b135b0cd9c911fe9b33a143bdee",
+      "synthetic-02-voices": "13ddb049b4c3c0d00ae2c6e229df10de947f00eb1185182d613f9bb1677f517f",
+      "synthetic-03-dots": "33c40c373c636071fd9e87022788a509b25a11de20ef44dee00c87bb131b80d1",
+      "synthetic-04-tuplets": "c556d3d018b7158961d61ddd417dc86a74e4d63664344dd7b0a8f1725f687161",
+      "synthetic-05-rests": "cb9fdf93be6ac02ea8f3ed907ce716ebaf95a6cf2a43f6bd3c7556bad730c42c",
+      "synthetic-06-accidentals": "79ab778a1f011828de1843937259c8c5c864ea5ade2f8a05d14cc0cca58cd827",
+      "synthetic-07-ties": "0ae6df9d063d419a936609fa406d6f2fefe2e3ca037c62fab787474cb9242a29",
+      "synthetic-08-pickup": "8d9db40e69de6ca95a65edc7c869a93064319af4368442c16e584c22ac99a276",
+      "synthetic-09-changes": "29f1494202c66d3cca44a9f070705b003b1722751f3649209e66663ec399b65d",
+      "synthetic-10-ornaments": "b9d3f838b8b92f54c9e80d6882956e8d4a0d230c46a21542b7ab3d6918d073ca",
+      "synthetic-11-directions": "34bf925a323adbcefd930ef8d5ccd5c08de96b1e742fdf1087c355b1ad62f141",
+      "stress-polish-000-blur": "507b0330a3447716ae1fdf71a243a7915e09f1b82c9fa3cb12422c1effff43bb",
+      "stress-polish-000-rotation": "b6de18185e56801ed367dbd33322b9faaa3d1bca8e0b19365b410e3597bbc8ed",
+      "stress-polish-000-perspective": "caaeee2c59773809c59195b0de3b55ad0c4d2d4cf95d7ca1fe2d7e7d455d91fc",
+      "stress-polish-000-unevenlight": "4c8e75d40e08e47cb474231c0522afe70f25ae21a828be586d8c6bd9c92d622d",
+      "stress-polish-001-blur": "e99382a830eec99a8a30f249d0727b3790bad9f4d0d29e912d21d0316d8e45a4",
+      "stress-polish-001-rotation": "b8360c7bf618ea67080fb859c3c0ac71bafd7ce61a0a5fd407fbf81c19a5ce2c",
+      "stress-polish-001-perspective": "73249a1232e28df231e90e9b4308e1860736abe7055cac003a2a032f14c9d135",
+      "stress-polish-001-unevenlight": "7829c0ed3a776c799daaa5e2f76bc3bbf0809376c43d8f01c960418e6ffcf026",
+      "stress-polish-002-blur": "539838f2e1a53e63eeea50de137a37035fe0b16596b59e47e960f3e15129126f",
+      "stress-polish-002-rotation": "d4bc261de791b33c50b2eb6bd76d348d8fde528d8965f9a30bdfd1027207d6ee",
+      "stress-polish-002-perspective": "0fe4717d6812ce82802e56a68036afdff06a38f9242da2be0e9f5a8e19cd5286",
+      "stress-polish-002-unevenlight": "102a726e982c205e25aa18f8b19cef76a166f0af67a205c7167bec7d0807d50d",
+      "stress-polish-003-blur": "e9a7a0d82551f3e9bf29b352685aecddfdbbcd3ef523cae555c51157fef48a1b",
+      "stress-polish-003-rotation": "e7aba47ae20ae4cc2e20add3209e2456d5e985c56ea7e390fccae01f4409cb7d",
+      "stress-polish-003-perspective": "31cb11c902c07657988724923add0ace3f3a530963cd9327458a81f4b02001e0",
+      "stress-polish-003-unevenlight": "cd457ee0c976ca6f7e98c148a7a0dd9f352fbadfa3fdecd39e4352040ab9332f",
+      "stress-polish-004-blur": "eed430b5361ece5378ca90798c29733f1fb92159b734322503f4a055b7d863fc",
+      "stress-polish-004-rotation": "d41a3f643390b3c6257823b4da6997ac838e96505e18142593b759195c91b560",
+      "stress-polish-004-perspective": "0f31cc1a65923bed8cf703391dbf04b226cc5c0976ddac20314c4442ccf19110",
+      "stress-polish-004-unevenlight": "6ebe100407e2cbb7265ad45e26d30e86e6ff999dd78a8d3907ad127b33982726",
+      "stress-polish-005-blur": "96501ddd8cafbfdce462e87a62f65a4f2a60fe1d74424169ce0e1078a1d7959b",
+      "stress-polish-005-rotation": "a6c8177e4d2264731353c229eaa3ce9e70089737d0badf4bc1e79e05a2b231a0",
+      "stress-polish-005-perspective": "884b0916ef754f51d23a78501dd53a3aff44057191ffcccc9244c06b16d0d3ae",
+      "stress-polish-005-unevenlight": "3f8aab5f778389d49b1c3dacac20beaa0c8a1bcfc2501b26bea4262b18d63092",
+      "stress-polish-006-blur": "0904fd42b213ba6f9d945a3b0404677e39ee24b07d32606d0a8f77acee460bc4",
+      "stress-polish-006-rotation": "b3a2460151e62fd93180689dd02d6d7bb0327130da8cad4dd44d6f07d27f5478",
+      "stress-polish-006-perspective": "c147e9959ce387bb893e5853a303f68ecb929f7192bc38f5a51904a35eb33a8c",
+      "stress-polish-006-unevenlight": "50ae02cdf34d4416f83ebabd980f1fad6b250187f048686b643a15a74409a94c",
+      "polish-000-scale2": "a103f036aad804d50eb5bf128c94d71debef42b5372e52da6e082b153c62d546",
+      "polish-001-scale2": "c0ba04165cbf35dbdbc7b1f684a3024aa69be3e053d036e054e857efee57745f",
+      "polish-002-scale2": "cc394109114626022ee96ebfd254b620a68ec54fc77cfd3bd42627da2ed85b91",
+      "polish-003-scale2": "c364aa8d549fb0a98d5c2061acdc05b1c134b506387541bde2503cf669bbbf72",
+      "polish-004-scale2": "1150c73322abe9c87a1f1f7d8d6d7b0e7e90c52431ec22d30b7ad6c2891035b0",
+      "polish-005-scale2": "5cb2e5d39fe056d41c45e31cce37a12372d3e019f159f0008b0f53b11f6df61e",
+      "polish-006-scale2": "dd614693d78be13bd2657e5ec3c64df44ae8bf56e509627dc95876fce1dd997f"
+    }
+  },
+  "patch_sha256": "b360d5b5052bae0dcddc7b71992afc8aa1c022f7cba4eef61243a6e3ebe97b6a",
+  "version_file_sha256": "f88508907e11432987da957ac1118025549cfb3d99aed019c80bc97a471018b1",
+  "docker_image_id": "sha256:022a28d696700ef35452142029eee064e95f659bfa48ebfcafd54f0b5b1bafb8",
+  "production_source_hashes": {
+    "homr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "homr/autocrop.py": "95a82139febff04a7530e4b074b85c2a52d7ab2a6e668b349799f5af969ed725",
+    "homr/bar_line_detection.py": "0fd0ec988d240842a72348770769ef1a2c3a47a95da8996017aed04455589a6d",
+    "homr/bounding_boxes.py": "cf5c27212f3b9763dd460cbefe99fd0a66e8f7bf53ea50d02d8849482a02a51f",
+    "homr/brace_dot_detection.py": "ab5aade1a8653b3a44b300217404618f2bd8319d34173e7cd4dc26d66d45a7b7",
+    "homr/circle_of_fifths.py": "3974ab21de851225a3f23f27868165c9b9ea9730984c3589ef180f1162056ae9",
+    "homr/color_adjust.py": "01d971bded1397042bfa76ab9d691e6a3e6bf9bb4283f9d1dab382b0088d96fc",
+    "homr/constants.py": "98d7114ec0509575e2b61ede66d7f42e8c0a90eb25aaa82ab7dd0e92e10fefa0",
+    "homr/debug.py": "dc9e208c605389a967b58a4edee955bfa8ab559d2ac66cd3f677877c8c42b5b3",
+    "homr/download_utils.py": "f2cd05ee4f03092da4135ed67404b6c2d3dd0048a41f8e7f3779a859a7b9a925",
+    "homr/find_peaks.py": "6fd390137077cab7d64104931e3d06b0149581d7217b855ae4080addad21e8f2",
+    "homr/image_utils.py": "b293ffad901fee69e11fcee672f2fc7aa61a44216143b95b8a916655400eea06",
+    "homr/main.py": "5f89ec2b1780cce3cfb18ac93ef0b7767f171292fe50bab68bc9a9b3eee7596c",
+    "homr/model.py": "c46a69c711d9eb8b1bf9d00f7046031ecd73a7788e8caaaa3c53ee08fe16f59e",
+    "homr/music_xml_generator.py": "a947173acc64cbeac29c47d118c0addd65760a00b72166935ce2107360e2f8a7",
+    "homr/noise_filtering.py": "0752bba4acca214407408b8f4e4f0540893e07a288f1272f3bfbd4395eca724b",
+    "homr/note_detection.py": "7dc0b3f8038c47d5b4f263ae16b241ac358e12e2d13055aaa6593aaf0be1014b",
+    "homr/onnx_providers.py": "f25106805b3dbf52878b13c0ef3dd78be63442aaf1ba9c0bae1830e9221d8fa7",
+    "homr/pdf_utils.py": "d2bc574a128758dbdbdbc5ff1d1087a96cc8d3858bd6c8bf8a9e703180a5d017",
+    "homr/point_mapping.py": "cce31c7e1e4d228641cb6503168c59d7e22371e5a361aec8a8029f576a07ad42",
+    "homr/relieur.py": "f26dd41f459b421ba5704a98f4b2cea088fefc835a287fddd8d6af45c318626f",
+    "homr/resize.py": "cc2ff7992ed5c2473529ab686912be8148c2a28059683362a6a346424cc97906",
+    "homr/segmentation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "homr/segmentation/config.py": "735c9ef5b30b9737221ca0ef31b4c28b04ee865f9885510da31fcad2c59df147",
+    "homr/segmentation/inference_segnet.py": "ef5ca2cfad5175a3919bcfba5c7375928a9c4be6876fa8aca0496515aabbe813",
+    "homr/simple_logging.py": "0a289e6deb8d55e0bcd709f4651246a417efb744447a9340b3cd5eb5669271ed",
+    "homr/staff_detection.py": "5f0b0a4faff6275ca4a47e2f4a0a32e2c436321d2cf41fe2cd303747a032589e",
+    "homr/staff_dewarping.py": "6b44e0b843e40c1fc7399d88b696707dea17f5b425418da40d66418d41d9752c",
+    "homr/staff_parsing.py": "10e3615e2dee2f30a0151e4050e60cc693378a6485e1ac4a99932ad86bd549f5",
+    "homr/staff_parsing_tromr.py": "96456c2feb7c306dd056e5ab59f170b4a19bbee7d22fa214965856cfe85669e4",
+    "homr/staff_position_save_load.py": "5e44ada123fa9dd65fadf0fa684db2cce8468cdeba880f9dfb9367e20f175fb0",
+    "homr/staff_regions.py": "58fb2f8b5fa8a22c8570b1cd2f0a8dde364642b641060434e759892862a85c01",
+    "homr/title_detection.py": "93d8c60bd5c79c989a30ed920e66422f59b25c503872461409614065159b4bea",
+    "homr/transformer/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "homr/transformer/configs.py": "2fdac1d1b961c8a5304d6ff34891848469507217c467aa313e8fd2d98385fc64",
+    "homr/transformer/decoder_inference.py": "22f482b4d70455820ad2be96fccbb09cdbcd36c6f9f37235662e968989a5802b",
+    "homr/transformer/encoder_inference.py": "27851bd0719d703218def26d8c830dbb708788f7e6b968662a6538ce0fd7b602",
+    "homr/transformer/staff2score.py": "ef6bc035a497c440b52f4d31b2757361a97dcc91ad1c7656d1fda7649a319e0c",
+    "homr/transformer/utils.py": "4ac26b2a45b94c573c7c1b5d261f8ef49986c18fad508d0cc295812307d340da",
+    "homr/transformer/vocabulary.py": "ff77c48437443681471a91eff28177076438edcf2134bfb6811e69b201a04397",
+    "homr/type_definitions.py": "f98c9ac820aae6c81b384c676a9c7848093723756c2f3628f8950c97a18fa3bb"
+  },
+  "regression_expansion": "原15病例增加polish-093及081/103/075，以验证控制边界回归；不是随机泛化样本。",
+  "notice": "固定19病例的新推理回归。其余145页未做新推理；此子集按缺陷选择，均值不代表全164页、独立作品或总体模型提升。"
+}

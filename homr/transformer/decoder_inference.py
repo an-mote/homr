@@ -116,6 +116,18 @@ class ScoreDecoder:
             slursp = outputs[5].numpy()
             attention = outputs[6].numpy()
 
+            for name, logits in (
+                ("rhythm", rhythmsp),
+                ("pitch", pitchsp),
+                ("lift", liftsp),
+                ("position", positionsp),
+                ("articulation", articulationsp),
+                ("slur", slursp),
+                ("attention", attention),
+            ):
+                if not np.isfinite(logits).all():
+                    raise ValueError(f"Decoder {name} at step {step} contains non-finite logits")
+
             rhythm_sample = np.array([[rhythmsp[:, -1, :].argmax()]])
             pitch_sample = np.array([[pitchsp[:, -1, :].argmax()]])
             lift_sample = np.array([[liftsp[:, -1, :].argmax()]])
@@ -149,6 +161,11 @@ class ScoreDecoder:
             out_rhythm = np.concatenate((out_rhythm, rhythm_sample), axis=-1)
             out_articulations = np.concatenate((out_articulations, articulation_sample), axis=-1)
             out_slurs = np.concatenate((out_slurs, slur_sample), axis=-1)
+        else:
+            raise ValueError(
+                f"Decoder did not emit an end token within {self.max_seq_len} steps; "
+                "recognition is incomplete"
+            )
 
         return symbols
 

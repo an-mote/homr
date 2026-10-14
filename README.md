@@ -1,5 +1,11 @@
 # homr
 
+## 离线增强版
+
+本分支在当前上游代码上合入琴键漫游项目验证的 HOMR 增强改动，保留原版模型权重，补充失败传播、原子保存、谱表完整性、MusicXML 控制记号和多小节休止等修复。使用方法见[离线增强使用说明](docs/离线增强/使用说明.md)，版本与验证边界见[验证记录](docs/离线增强/验证记录.md)。
+
+模型与 2026-10-04 原始完整包通过[发行附件](https://github.com/an-mote/homr/releases/tag/homr-enhanced-20261014)提供；`Tools/homr增强` 中的原始版本锁只用于复现该历史包，不用于校验当前仓库根目录。
+
 homr is an Optical Music Recognition (OMR) software designed to transform camera pictures or PDFs of sheet music into
 machine-readable MusicXML format. The resulting [MusicXML](https://www.w3.org/2021/06/musicxml40/) files can be further
 processed using tools such as [musescore](https://musescore.com/).
