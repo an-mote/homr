@@ -1,0 +1,1553 @@
+{
+  "upstream_commit": "863eb3c6487f3c6fe50267fb71613f05162bb7c5",
+  "upstream_url": "https://github.com/liebharc/homr",
+  "image_id": "sha256:022a28d696700ef35452142029eee064e95f659bfa48ebfcafd54f0b5b1bafb8",
+  "baseline_files": [
+    {
+      "path": ".cspell-dictionaries/english-extra.txt",
+      "size_bytes": 51,
+      "sha256": "0b71bcb243bdd9387b0c89afc577cefc125783c077481d20b14929e28efdcfa1"
+    },
+    {
+      "path": ".cspell-dictionaries/python.txt",
+      "size_bytes": 164,
+      "sha256": "333c450a0a34cc35b889007d2fbd278db844ff87d755324e71df3245edd2d163"
+    },
+    {
+      "path": ".cspell.json",
+      "size_bytes": 424,
+      "sha256": "284a8929ec3b3d2e0c6c53419315a483a432e31b07c84ee970ebfabfd1259336"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "size_bytes": 832,
+      "sha256": "427e99c7704dd4eca30ea886b43fc5cb82bce22969dbb616bbb3e8be6ef4aefa"
+    },
+    {
+      "path": ".github/workflows/main.yml",
+      "size_bytes": 837,
+      "sha256": "264f214efaae5f2d9d7f0f1b0a59255619f762fe36e2ef4ee4295c4a37a56ea7"
+    },
+    {
+      "path": ".github/workflows/publish.yml",
+      "size_bytes": 864,
+      "sha256": "2bcb91047b6e8def3033e03f52d6c942cf9393c1ca9b5e4bfed736b93da259c1"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 580,
+      "sha256": "31bb69052b766b7476b1545259cdc766a65b95ec195d8cbe9a098cfcf1be6930"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "size_bytes": 1385,
+      "sha256": "e381ca5dda5c9927a40dfcb4d59b270b5df507e5784786e207759f6e1c5ff51f"
+    },
+    {
+      "path": ".vscode/launch.json",
+      "size_bytes": 1669,
+      "sha256": "91c55e1b9657b7233422343c54f6ca7b852c47572263f1db2526abe668313c09"
+    },
+    {
+      "path": ".vscode/settings.json",
+      "size_bytes": 783,
+      "sha256": "7f78584bd0ec2ec7e970be08ce4cc46d164b12ad90ac785f8b954570b9cb13ba"
+    },
+    {
+      "path": "Benchmark.md",
+      "size_bytes": 10491,
+      "sha256": "881c5ff2d32f6bc2a72a6edbdb49ac47935666d68e0321d596ba1f481c4e16b1"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "size_bytes": 3325,
+      "sha256": "b8e645ab9c93fbac6bde5e2e7c280c195f0e1916e3385265b053e6828070135a"
+    },
+    {
+      "path": "Changelog.md",
+      "size_bytes": 1633,
+      "sha256": "49508c54fb4b211860a6bf34a938ef5dffd0cc49933b1cb8db5526c0be9ab4cd"
+    },
+    {
+      "path": "IDEAS_FOR_CONTRIBUTORS.md",
+      "size_bytes": 8738,
+      "sha256": "9db1770e128ca2eedfea2b8429f8ca1ffaeba23c7857f9a81a32f2ce8678e345"
+    },
+    {
+      "path": "LICENSE",
+      "size_bytes": 34309,
+      "sha256": "a6de0dc64ada3b5141517c0167b109dfc2adb3d1d8b27ff1745f337331b2a5f4"
+    },
+    {
+      "path": "Makefile",
+      "size_bytes": 2323,
+      "sha256": "60fa56852cf95c086196c3d093ef41a2012961268938a76979ba8d0ec652ef9e"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 7260,
+      "sha256": "3aa56227cfca845eb588732b6a9ea7474da4f4b2f5eda701c60177402b525f38"
+    },
+    {
+      "path": "Training.md",
+      "size_bytes": 23679,
+      "sha256": "aa55fd3972fbd76e14c361acdc2742d201ec7241422377c28a15d0833e182b2d"
+    },
+    {
+      "path": "Vocabulary.md",
+      "size_bytes": 2716,
+      "sha256": "bdf13678a0e694c0a15028cc84638371c6612526c0e9965d6b3827d99dc9f1a9"
+    },
+    {
+      "path": "colab.ipynb",
+      "size_bytes": 3676815,
+      "sha256": "a1e5132a335fa4d9e1d60066b4d382ef61479a0525657c5da3924b83982e432c"
+    },
+    {
+      "path": "docker/Dockerfile",
+      "size_bytes": 762,
+      "sha256": "f84a66c2b4d7b7d5a2f258ecbfd5ee57e7f5be450170f7cf46dfd743f75e3c44"
+    },
+    {
+      "path": "docker/Dockerfile.cuda",
+      "size_bytes": 779,
+      "sha256": "2b3daa6b824bf70edf26cab5afcf56aa48a5dfb6682542429324c73b5329658c"
+    },
+    {
+      "path": "docker/Dockerfile.rocm",
+      "size_bytes": 1052,
+      "sha256": "23a5c7f609990c762dd8df8657409e3c6c157587ea49b169e8ccc0ae59456a83"
+    },
+    {
+      "path": "docker/requirements.txt",
+      "size_bytes": 34,
+      "sha256": "930d4d4aff072ec7a884df04483cb03b9272f81aee83ebee14eb7b4684f3a3c8"
+    },
+    {
+      "path": "docker/web/app.py",
+      "size_bytes": 3315,
+      "sha256": "bb5f8b5fcb2b3fe32278fb217a6c159f19c959c03f298776b7893663c810c5c9"
+    },
+    {
+      "path": "docker/web/index.html",
+      "size_bytes": 4653,
+      "sha256": "1ac2089ad66de63c774c87a96bd50e2c1dc527cba91b97bddba4f261e42aef42"
+    },
+    {
+      "path": "docs/Makefile",
+      "size_bytes": 634,
+      "sha256": "8b6587b859607f200f116e2cb043fc358e1c3a26c326b563bf348453cfc68307"
+    },
+    {
+      "path": "docs/conf.py",
+      "size_bytes": 2555,
+      "sha256": "5e93dd59cf32f41d6d3266fbe222863c5387b3b2e64ff98a0376f35e3c9da3a0"
+    },
+    {
+      "path": "docs/index.rst",
+      "size_bytes": 473,
+      "sha256": "9deb2abb3984b97a197ee6b63b2944164c7fdd841d4145d6657fe2df4bcd6701"
+    },
+    {
+      "path": "docs/make.bat",
+      "size_bytes": 800,
+      "sha256": "bca6b3244f115b8f42cbc2bb866f1061b95eb6f01df1891e2ac68f03f7569d7b"
+    },
+    {
+      "path": "docs/source/libs.rst",
+      "size_bytes": 241,
+      "sha256": "6c5454aa51e1086b183e20dbe48a25db918687be31d76b5a8c28d21f4885b39c"
+    },
+    {
+      "path": "figures/tabi.musicxml",
+      "size_bytes": 95345,
+      "sha256": "53cfa70a3b4a304efaf1c9672b6ab0964b81f4ece86c0e38e4278c39de955335"
+    },
+    {
+      "path": "figures/tabi.svg",
+      "size_bytes": 345776,
+      "sha256": "b460417c52a292d13e083df5127acfffedf11a25d07feb4142c2540a692ee05d"
+    },
+    {
+      "path": "homr/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "homr/autocrop.py",
+      "size_bytes": 2179,
+      "sha256": "95a82139febff04a7530e4b074b85c2a52d7ab2a6e668b349799f5af969ed725"
+    },
+    {
+      "path": "homr/bar_line_detection.py",
+      "size_bytes": 814,
+      "sha256": "0fd0ec988d240842a72348770769ef1a2c3a47a95da8996017aed04455589a6d"
+    },
+    {
+      "path": "homr/bounding_boxes.py",
+      "size_bytes": 20980,
+      "sha256": "cf5c27212f3b9763dd460cbefe99fd0a66e8f7bf53ea50d02d8849482a02a51f"
+    },
+    {
+      "path": "homr/brace_dot_detection.py",
+      "size_bytes": 8464,
+      "sha256": "ab5aade1a8653b3a44b300217404618f2bd8319d34173e7cd4dc26d66d45a7b7"
+    },
+    {
+      "path": "homr/circle_of_fifths.py",
+      "size_bytes": 6020,
+      "sha256": "3974ab21de851225a3f23f27868165c9b9ea9730984c3589ef180f1162056ae9"
+    },
+    {
+      "path": "homr/color_adjust.py",
+      "size_bytes": 255,
+      "sha256": "01d971bded1397042bfa76ab9d691e6a3e6bf9bb4283f9d1dab382b0088d96fc"
+    },
+    {
+      "path": "homr/constants.py",
+      "size_bytes": 3160,
+      "sha256": "98d7114ec0509575e2b61ede66d7f42e8c0a90eb25aaa82ab7dd0e92e10fefa0"
+    },
+    {
+      "path": "homr/debug.py",
+      "size_bytes": 4251,
+      "sha256": "dc9e208c605389a967b58a4edee955bfa8ab559d2ac66cd3f677877c8c42b5b3"
+    },
+    {
+      "path": "homr/download_utils.py",
+      "size_bytes": 4215,
+      "sha256": "f2cd05ee4f03092da4135ed67404b6c2d3dd0048a41f8e7f3779a859a7b9a925"
+    },
+    {
+      "path": "homr/find_peaks.py",
+      "size_bytes": 4085,
+      "sha256": "6fd390137077cab7d64104931e3d06b0149581d7217b855ae4080addad21e8f2"
+    },
+    {
+      "path": "homr/image_utils.py",
+      "size_bytes": 1009,
+      "sha256": "b293ffad901fee69e11fcee672f2fc7aa61a44216143b95b8a916655400eea06"
+    },
+    {
+      "path": "homr/main.py",
+      "size_bytes": 22071,
+      "sha256": "306baf46ef3327475bf21c27b3452c9302798f84d25fad968f88bac8baaf0dea"
+    },
+    {
+      "path": "homr/model.py",
+      "size_bytes": 20849,
+      "sha256": "c46a69c711d9eb8b1bf9d00f7046031ecd73a7788e8caaaa3c53ee08fe16f59e"
+    },
+    {
+      "path": "homr/music_xml_generator.py",
+      "size_bytes": 37468,
+      "sha256": "5787bc3320857b957956b36c46283ba9fff6bae27a0d0f7966ea9d48c3b6c74f"
+    },
+    {
+      "path": "homr/noise_filtering.py",
+      "size_bytes": 4379,
+      "sha256": "0752bba4acca214407408b8f4e4f0540893e07a288f1272f3bfbd4395eca724b"
+    },
+    {
+      "path": "homr/note_detection.py",
+      "size_bytes": 6909,
+      "sha256": "7dc0b3f8038c47d5b4f263ae16b241ac358e12e2d13055aaa6593aaf0be1014b"
+    },
+    {
+      "path": "homr/onnx_providers.py",
+      "size_bytes": 4627,
+      "sha256": "f25106805b3dbf52878b13c0ef3dd78be63442aaf1ba9c0bae1830e9221d8fa7"
+    },
+    {
+      "path": "homr/pdf_utils.py",
+      "size_bytes": 785,
+      "sha256": "d2bc574a128758dbdbdbc5ff1d1087a96cc8d3858bd6c8bf8a9e703180a5d017"
+    },
+    {
+      "path": "homr/point_mapping.py",
+      "size_bytes": 1503,
+      "sha256": "cce31c7e1e4d228641cb6503168c59d7e22371e5a361aec8a8029f576a07ad42"
+    },
+    {
+      "path": "homr/relieur.py",
+      "size_bytes": 7408,
+      "sha256": "f26dd41f459b421ba5704a98f4b2cea088fefc835a287fddd8d6af45c318626f"
+    },
+    {
+      "path": "homr/resize.py",
+      "size_bytes": 737,
+      "sha256": "cc2ff7992ed5c2473529ab686912be8148c2a28059683362a6a346424cc97906"
+    },
+    {
+      "path": "homr/segmentation/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "homr/segmentation/config.py",
+      "size_bytes": 536,
+      "sha256": "735c9ef5b30b9737221ca0ef31b4c28b04ee865f9885510da31fcad2c59df147"
+    },
+    {
+      "path": "homr/segmentation/inference_segnet.py",
+      "size_bytes": 10610,
+      "sha256": "ef5ca2cfad5175a3919bcfba5c7375928a9c4be6876fa8aca0496515aabbe813"
+    },
+    {
+      "path": "homr/simple_logging.py",
+      "size_bytes": 289,
+      "sha256": "0a289e6deb8d55e0bcd709f4651246a417efb744447a9340b3cd5eb5669271ed"
+    },
+    {
+      "path": "homr/staff_detection.py",
+      "size_bytes": 35191,
+      "sha256": "5f0b0a4faff6275ca4a47e2f4a0a32e2c436321d2cf41fe2cd303747a032589e"
+    },
+    {
+      "path": "homr/staff_dewarping.py",
+      "size_bytes": 18697,
+      "sha256": "6b44e0b843e40c1fc7399d88b696707dea17f5b425418da40d66418d41d9752c"
+    },
+    {
+      "path": "homr/staff_parsing.py",
+      "size_bytes": 17600,
+      "sha256": "000c49f20df1a90e9d518907c171d2e807155173195a131ac317acef954ebf77"
+    },
+    {
+      "path": "homr/staff_parsing_tromr.py",
+      "size_bytes": 818,
+      "sha256": "96456c2feb7c306dd056e5ab59f170b4a19bbee7d22fa214965856cfe85669e4"
+    },
+    {
+      "path": "homr/staff_position_save_load.py",
+      "size_bytes": 6166,
+      "sha256": "5e44ada123fa9dd65fadf0fa684db2cce8468cdeba880f9dfb9367e20f175fb0"
+    },
+    {
+      "path": "homr/staff_regions.py",
+      "size_bytes": 818,
+      "sha256": "58fb2f8b5fa8a22c8570b1cd2f0a8dde364642b641060434e759892862a85c01"
+    },
+    {
+      "path": "homr/title_detection.py",
+      "size_bytes": 3962,
+      "sha256": "93d8c60bd5c79c989a30ed920e66422f59b25c503872461409614065159b4bea"
+    },
+    {
+      "path": "homr/transformer/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "homr/transformer/configs.py",
+      "size_bytes": 5761,
+      "sha256": "2fdac1d1b961c8a5304d6ff34891848469507217c467aa313e8fd2d98385fc64"
+    },
+    {
+      "path": "homr/transformer/decoder_inference.py",
+      "size_bytes": 8986,
+      "sha256": "8f91d0062bbd90687fa4c4e7abcd8ebe6fec250b013789b1121de6a4b50d7323"
+    },
+    {
+      "path": "homr/transformer/encoder_inference.py",
+      "size_bytes": 3389,
+      "sha256": "27851bd0719d703218def26d8c830dbb708788f7e6b968662a6538ce0fd7b602"
+    },
+    {
+      "path": "homr/transformer/staff2score.py",
+      "size_bytes": 2949,
+      "sha256": "ef6bc035a497c440b52f4d31b2757361a97dcc91ad1c7656d1fda7649a319e0c"
+    },
+    {
+      "path": "homr/transformer/tokenizer_lift.json",
+      "size_bytes": 311,
+      "sha256": "acebcd85936f2d2c4b8d67c2a90bb487a327e7eeca3b889896469f34d5157f85"
+    },
+    {
+      "path": "homr/transformer/tokenizer_note.json",
+      "size_bytes": 258,
+      "sha256": "be294c8adb4febeb93a1e257c7aa35ac34e5298071afa8f2af8d1cf5a33eae20"
+    },
+    {
+      "path": "homr/transformer/tokenizer_pitch.json",
+      "size_bytes": 1495,
+      "sha256": "66ce099b2d3fcbdf7269d2600198628af8548bd410ec6a9ac478db7007ec9933"
+    },
+    {
+      "path": "homr/transformer/tokenizer_rhythm.json",
+      "size_bytes": 2447,
+      "sha256": "3e64ccafd628436439e664aac40ea3820982cbd90171c9895d2c7cf2b9efb76e"
+    },
+    {
+      "path": "homr/transformer/utils.py",
+      "size_bytes": 582,
+      "sha256": "4ac26b2a45b94c573c7c1b5d261f8ef49986c18fad508d0cc295812307d340da"
+    },
+    {
+      "path": "homr/transformer/vocabulary.py",
+      "size_bytes": 22857,
+      "sha256": "51205b457b99e8f267b8a8bdc86639289aa67de7b79c9f8524b95f1381b3d701"
+    },
+    {
+      "path": "homr/type_definitions.py",
+      "size_bytes": 75,
+      "sha256": "f98c9ac820aae6c81b384c676a9c7848093723756c2f3628f8950c97a18fa3bb"
+    },
+    {
+      "path": "poetry.lock",
+      "size_bytes": 779924,
+      "sha256": "afa976caad1ceeab0c0cd08e575053449507b225792bcfd8aa71d9edb2495516"
+    },
+    {
+      "path": "pyproject.toml",
+      "size_bytes": 5318,
+      "sha256": "d9dbb40092325dc46a991c9192f9431b0fdd2f51f31a7dd482cd3bc9de9f29ca"
+    },
+    {
+      "path": "tests/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/test_bounding_boxes.py",
+      "size_bytes": 2974,
+      "sha256": "c862530dccd994b5f323a41b0d9583e04007ef965e6be6a6d9ac764240db8789"
+    },
+    {
+      "path": "tests/test_circle_of_fifths.py",
+      "size_bytes": 2294,
+      "sha256": "41e14f7e86e9a2e8c13ca99ad165ccc0efab5a7cf5e81137ea42034a6e2ae85d"
+    },
+    {
+      "path": "tests/test_humdrum_kern_parser.py",
+      "size_bytes": 11787,
+      "sha256": "82bdee3323ac0f9c7c4217881004592ca5b344c67c8454d64da098a407d4bd86"
+    },
+    {
+      "path": "tests/test_mix_datasets.py",
+      "size_bytes": 597,
+      "sha256": "4bd34a1147e97e5ab23663c9644775d27666322b9c6310d5586ebd62249fd0bd"
+    },
+    {
+      "path": "tests/test_model.py",
+      "size_bytes": 3099,
+      "sha256": "109eea07326b47384cdce1294dc5cc9be808ff89ff882812c6eb08aff270c4a7"
+    },
+    {
+      "path": "tests/test_music_xml_generator.py",
+      "size_bytes": 20969,
+      "sha256": "3794f59b9b54fd34172fb293dd414660a6468b3a21d2c0e953cdc421cf7a92a6"
+    },
+    {
+      "path": "tests/test_music_xml_parser.py",
+      "size_bytes": 24032,
+      "sha256": "6715d27b7b399fef17f682fac90d88d23f7191e54152bc1f42499806a059f994"
+    },
+    {
+      "path": "tests/test_ned_score.py",
+      "size_bytes": 7834,
+      "sha256": "6bdb44d650ba9b5d0262a5450b5c2846f3ac17d1bea901941e220379ffee2dfd"
+    },
+    {
+      "path": "tests/test_poetry_config.py",
+      "size_bytes": 850,
+      "sha256": "899a88807ff2702036d72c7e36d6bcc0c0a757209d0564b72c778060538d1202"
+    },
+    {
+      "path": "tests/test_point_mapping.py",
+      "size_bytes": 1478,
+      "sha256": "70b206dc5868c63682b026cc7eeba9b980561aec27d515c29ebf4bcee88a10bf"
+    },
+    {
+      "path": "tests/test_primus_semantic_parser.py",
+      "size_bytes": 1266,
+      "sha256": "b04f688332250b29aa13c0e64b85e7576b3fdad71972b51a6b10de92f163e8c8"
+    },
+    {
+      "path": "tests/test_staff_detection.py",
+      "size_bytes": 677,
+      "sha256": "8bf4c6f40240f08f841da5fab45c067e4ac1043778aad52322a4d161456193b0"
+    },
+    {
+      "path": "tests/test_staff_merging.py",
+      "size_bytes": 1152,
+      "sha256": "c3ad9d5658c374f54c43df39e8b0d7258bcb13afc6f8253f783209948c802feb"
+    },
+    {
+      "path": "tests/test_staff_parsing.py",
+      "size_bytes": 4831,
+      "sha256": "454fc268545b2c8371b60eae1dd979389aa17a28d0b57d81e0c127b1dd19634b"
+    },
+    {
+      "path": "tests/test_staff_regions.py",
+      "size_bytes": 1923,
+      "sha256": "77856d066870f66c625bb7b51613eee96d2ce93991c4f2979ad622385e163fcb"
+    },
+    {
+      "path": "tests/test_training_vocabulary.py",
+      "size_bytes": 2241,
+      "sha256": "d753dc3f387aafa1c1775d85cc887d3db971012533e32f6639aff43847b35fab"
+    },
+    {
+      "path": "tests/test_vocabulary.py",
+      "size_bytes": 10225,
+      "sha256": "2875b57ecd16ed3bc6a6f4dcd08f265c139c73c0177ea430a6cc3281e2fbcbce"
+    },
+    {
+      "path": "training/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/architecture/segmentation/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/architecture/segmentation/model.py",
+      "size_bytes": 5218,
+      "sha256": "93b8cc79d96805a84548132057fc4f715e7676bb5fa8f33dc95944218b5472f7"
+    },
+    {
+      "path": "training/architecture/transformer/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/architecture/transformer/custom_x_transformer.py",
+      "size_bytes": 13482,
+      "sha256": "9cfd001df1fef14b18e5ec095ddff2b1f038303253e8b112bb79b01e23e994d3"
+    },
+    {
+      "path": "training/architecture/transformer/decoder.py",
+      "size_bytes": 23999,
+      "sha256": "83b972bc59d4e82d8094cf565b705dfdbecb96a9b80976b34fb405aa6b59b838"
+    },
+    {
+      "path": "training/architecture/transformer/encoder.py",
+      "size_bytes": 4204,
+      "sha256": "b0027750cecba8d322d3d077bddc60ef171db3eb6cc6600b623fbd2a0d5a75be"
+    },
+    {
+      "path": "training/architecture/transformer/staff2score.py",
+      "size_bytes": 2572,
+      "sha256": "0b6930136132eb2f8a260d65f6cf40ece420de2fef9957ff3fd900437ecbe277"
+    },
+    {
+      "path": "training/architecture/transformer/tromr_arch.py",
+      "size_bytes": 3545,
+      "sha256": "e0f6d571eb89e46a1c598b2396745090cd888c8cd4e2c7370ae517354ca39109"
+    },
+    {
+      "path": "training/download.py",
+      "size_bytes": 1513,
+      "sha256": "346c11a45b4cb21ec2ba5491c38954c3cd8dd8f0dcab42840b5485c9cd3b1f81"
+    },
+    {
+      "path": "training/omr_datasets/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/omr_datasets/convert_grandstaff.py",
+      "size_bytes": 7907,
+      "sha256": "ba9a5ba412c5cfa55bb3e92473c846dd4c0143ea61b2c1a8d91373db30c09f25"
+    },
+    {
+      "path": "training/omr_datasets/convert_lieder.py",
+      "size_bytes": 29596,
+      "sha256": "ef773f22740c9b1d6a0b3f64fe4a723a9817d099bda057092488f4d34e547c79"
+    },
+    {
+      "path": "training/omr_datasets/convert_musetrainer.py",
+      "size_bytes": 3220,
+      "sha256": "6e0bbefaf1daa6b6b1f05c6615238f813f5bded18d6f0f7eb601ce06496ad59c"
+    },
+    {
+      "path": "training/omr_datasets/convert_pdmx.py",
+      "size_bytes": 4984,
+      "sha256": "c4b2c2a77bc11ca099f9f1412e36bcf2d90ff06339866c249947a375f311890d"
+    },
+    {
+      "path": "training/omr_datasets/convert_primus.py",
+      "size_bytes": 4279,
+      "sha256": "4c37b153c1f0876c4b00a164cddb5b840f055e780f486f13a3e6c67195f81414"
+    },
+    {
+      "path": "training/omr_datasets/filter_from_index.py",
+      "size_bytes": 2221,
+      "sha256": "0d8ab3de87623e24828876f0a29d22da4eec8b884a98f39cfb544732b4a19d02"
+    },
+    {
+      "path": "training/omr_datasets/humdrum_kern_parser.py",
+      "size_bytes": 19028,
+      "sha256": "325d61fdb7778534706cc9ae990934764b12378aa11874c116b75efde11ab863"
+    },
+    {
+      "path": "training/omr_datasets/musescore_svg.py",
+      "size_bytes": 15206,
+      "sha256": "2be88035fe212527f1c095ecb0054c528a96f4d7fbf20ce826bda5e1849e8bb2"
+    },
+    {
+      "path": "training/omr_datasets/music21_kern_parser.py",
+      "size_bytes": 14171,
+      "sha256": "75e322329d5839e0380ea54f608bd4d4299c83721de25e9707697e1d76a9d58d"
+    },
+    {
+      "path": "training/omr_datasets/music21_xml_parser.py",
+      "size_bytes": 2575,
+      "sha256": "ccd22e0aa8c2c622f5926fa3330a7dbc2a92ddf666c31174beb03b460668f22c"
+    },
+    {
+      "path": "training/omr_datasets/music_xml_parser.py",
+      "size_bytes": 34340,
+      "sha256": "52b3959aef114f9afc8e21de476822ddc6f2c3d08c34a4c8d0c7018e46dc20d1"
+    },
+    {
+      "path": "training/omr_datasets/primus_semantic_parser.py",
+      "size_bytes": 7216,
+      "sha256": "286f1eb04854839fd3758b4fcb753f5fdac009617ba66bdc019b439c48078284"
+    },
+    {
+      "path": "training/omr_datasets/staff_merging.py",
+      "size_bytes": 2633,
+      "sha256": "8f358b56519f076cf65e59fe14a47ae5906425f5206f93d675f9770afe2885a1"
+    },
+    {
+      "path": "training/omr_datasets/unzip_datasets.py",
+      "size_bytes": 897,
+      "sha256": "9ead832daf1f70877bff40dac9b2775da1cba23f07fb73c11e2586d1b7eceb9c"
+    },
+    {
+      "path": "training/omr_datasets/zip_datasets.py",
+      "size_bytes": 1775,
+      "sha256": "6990848453a2c48098ac0f5c6c4d467cac2f287bab3bf1c164514f649de90743"
+    },
+    {
+      "path": "training/onnx/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/onnx/convert.py",
+      "size_bytes": 6227,
+      "sha256": "81c59db99f88aea44fc2855b7dbc1a5895db85f9f283f7de417d67e768ad0a61"
+    },
+    {
+      "path": "training/onnx/fuse.py",
+      "size_bytes": 4541,
+      "sha256": "8c5645828add7b983cee2162c533bf1fbcba8e36898b066c13db51f8dd5ea80e"
+    },
+    {
+      "path": "training/onnx/main.py",
+      "size_bytes": 2504,
+      "sha256": "d6846316f2404f9fba7d5c4ee898d67df6b1085d4b008df9733e0af8caa49a02"
+    },
+    {
+      "path": "training/onnx/quantization.py",
+      "size_bytes": 1391,
+      "sha256": "ff97f3c4ca53a3d97602526e3b840b1cd5816a2991e79ba467960245901ced69"
+    },
+    {
+      "path": "training/onnx/simplify.py",
+      "size_bytes": 669,
+      "sha256": "933175482567f3122ab46e9e585e2c85d56c100356c28e999ef892c34e1ce22f"
+    },
+    {
+      "path": "training/onnx/split_weights.py",
+      "size_bytes": 1944,
+      "sha256": "c5d5e40531f0d3dcff6d39ccf4203ee48e5e1abc6a2b399616a7d8e2807181f4"
+    },
+    {
+      "path": "training/run_id.py",
+      "size_bytes": 338,
+      "sha256": "eeaa505846bdfd7bfcc2ae897bea4871dde272900298a7a75b8d97d7eacb7917"
+    },
+    {
+      "path": "training/segmentation/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/segmentation/build_label.py",
+      "size_bytes": 4649,
+      "sha256": "794e11633da80b09bde04138feb39e277513b184221cc8861f1a8e298841e029"
+    },
+    {
+      "path": "training/segmentation/dense_dataset_definitions.py",
+      "size_bytes": 3849,
+      "sha256": "2be6d2a9723e25ce40397bd4429943bcb308bcbc2a4cf6c1a28decd81b8a6524"
+    },
+    {
+      "path": "training/segmentation/train.py",
+      "size_bytes": 12958,
+      "sha256": "d5894b3fbf6982a8694641a80b48ae604d6e94fe6f20466f0b2a36fc698623fa"
+    },
+    {
+      "path": "training/show_examples_from_index.py",
+      "size_bytes": 3054,
+      "sha256": "ee55bdddd6a46dcb6d49d9d11a85ce72d78ad72fcf8955da076fb0af9d80df6a"
+    },
+    {
+      "path": "training/train.py",
+      "size_bytes": 628,
+      "sha256": "57f3b899f0dd1e34ad29f13fc44b1b33a7e611f755f8477eedd75e625a426009"
+    },
+    {
+      "path": "training/transformer/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/transformer/augraphy_augment.py",
+      "size_bytes": 4064,
+      "sha256": "5c30d9d5c86129f68850012bec25f0c8282867dbdb32981feedb7a093113061b"
+    },
+    {
+      "path": "training/transformer/data_loader.py",
+      "size_bytes": 4847,
+      "sha256": "dad164d9964f1cace140b7ec8bc7ae1b67c8d1ff7fca1e26e9107cc61c75fdc1"
+    },
+    {
+      "path": "training/transformer/distribute.py",
+      "size_bytes": 1400,
+      "sha256": "0f0db7e82cc9befd35610a66998b403be0d9dc729a422c6a0faf5ce4cbd10d01"
+    },
+    {
+      "path": "training/transformer/image_utils.py",
+      "size_bytes": 11307,
+      "sha256": "f4eb04b86293595476cb5fbd7cfb043ca0178a27cd238e5361107a4045a862ac"
+    },
+    {
+      "path": "training/transformer/metrics.py",
+      "size_bytes": 8257,
+      "sha256": "2449705a9ca83b1f7e9ab24917544491f5318a0eb77ec5b5f67f77d23e4415fb"
+    },
+    {
+      "path": "training/transformer/mix_datasets.py",
+      "size_bytes": 2246,
+      "sha256": "190bbb70de9d4ac4dc5de2c4fedefe5bfd2ad444b7e93fb804632f4f89cbe3a9"
+    },
+    {
+      "path": "training/transformer/train.py",
+      "size_bytes": 8456,
+      "sha256": "ced03800ae140a73c432c84ac78acd2c698a4d717509ae994966c4f4c745acb8"
+    },
+    {
+      "path": "training/transformer/training_vocabulary.py",
+      "size_bytes": 13293,
+      "sha256": "1722e6ac99be2adfc4104d92dda509d141e5129f0c1596a977b66ce6844825dc"
+    },
+    {
+      "path": "training/validate_music_xml_conversion.py",
+      "size_bytes": 2235,
+      "sha256": "c3d09d4f59e30a7c26bd980b5a7e56f58980d61d1aa5d368dffa1d1f403645fd"
+    },
+    {
+      "path": "validation/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "validation/benchmark_db.py",
+      "size_bytes": 3962,
+      "sha256": "86b2170ee03242ba729739f9652ed722b48937966024534109a94a2cacdcab6f"
+    },
+    {
+      "path": "validation/compare_parsers.py",
+      "size_bytes": 7495,
+      "sha256": "9de856b46ab76c4359a252ee46b6eb996e2c056a2cd069fa7a0fe7cd7fb24cf3"
+    },
+    {
+      "path": "validation/ned_benchmark.py",
+      "size_bytes": 16654,
+      "sha256": "80e32911344cee8d557c770938b8a01c21238e58111e2ee50d78f191cb0f98af"
+    },
+    {
+      "path": "validation/ned_score.py",
+      "size_bytes": 31564,
+      "sha256": "d2b07f2d138698ba1ae7e9b30c0bd7b0b6064d2d999c65e429ed9aec49fedee1"
+    },
+    {
+      "path": "validation/polish-scores.py",
+      "size_bytes": 4545,
+      "sha256": "15e2c97da5976c10d7104a0970ddf5e3da5e7b80100db71136e7e7910cc0d00a"
+    },
+    {
+      "path": "validation/polish-scores_homr.db",
+      "size_bytes": 49152,
+      "sha256": "504c713a4296c2b7a50022c9105ffd96578fe9f3ff9d0e6f97fac3f8f1c34dff"
+    },
+    {
+      "path": "validation/rate_validation_result.py",
+      "size_bytes": 9000,
+      "sha256": "470968055b71c541b302d544cea1031da1bba4431b6dd84efbba354de21901ef"
+    },
+    {
+      "path": "validation/report.py",
+      "size_bytes": 21195,
+      "sha256": "18d7b47113e596e851b048bd9f1a80abc104a8a9fdfbc1a8917ee6ecf40a4cff"
+    },
+    {
+      "path": "validation/show_diff.py",
+      "size_bytes": 8052,
+      "sha256": "43cff254616dfd13b1af009bb7b5255e7f94db73c889f3aab84987dc3f7adfe2"
+    },
+    {
+      "path": "validation/smb.py",
+      "size_bytes": 4280,
+      "sha256": "615ce678068ea42537984b95aab4666db14e2709a7f3252078bdc6cae38672b7"
+    },
+    {
+      "path": "validation/symbol_error_rate_torch.py",
+      "size_bytes": 7603,
+      "sha256": "a6e4ef0ce91216d5688e6ceb5c33199989254301692fb2156e012cacdf4f3b85"
+    },
+    {
+      "path": "validation/tools.py",
+      "size_bytes": 15286,
+      "sha256": "d1c42ebd65f87d332116f71394deabf2489bee76d7a77be85934acadb4250667"
+    }
+  ],
+  "patch_sha256": "b360d5b5052bae0dcddc7b71992afc8aa1c022f7cba4eef61243a6e3ebe97b6a",
+  "patched_files": [
+    {
+      "path": "homr/main.py",
+      "sha256": "5f89ec2b1780cce3cfb18ac93ef0b7767f171292fe50bab68bc9a9b3eee7596c",
+      "newline": "LF"
+    },
+    {
+      "path": "homr/music_xml_generator.py",
+      "sha256": "a947173acc64cbeac29c47d118c0addd65760a00b72166935ce2107360e2f8a7",
+      "newline": "LF"
+    },
+    {
+      "path": "homr/staff_parsing.py",
+      "sha256": "10e3615e2dee2f30a0151e4050e60cc693378a6485e1ac4a99932ad86bd549f5",
+      "newline": "CRLF"
+    },
+    {
+      "path": "homr/transformer/decoder_inference.py",
+      "sha256": "22f482b4d70455820ad2be96fccbb09cdbcd36c6f9f37235662e968989a5802b",
+      "newline": "LF"
+    },
+    {
+      "path": "homr/transformer/vocabulary.py",
+      "sha256": "ff77c48437443681471a91eff28177076438edcf2134bfb6811e69b201a04397",
+      "newline": "LF"
+    },
+    {
+      "path": "tests/test_cli_regressions.py",
+      "sha256": "a1f0e8b68971a46a8be5c4920c94cc25abfa3d2fed27750230cc77d8d6f258a5",
+      "newline": "LF"
+    },
+    {
+      "path": "tests/test_decoder_safety.py",
+      "sha256": "d134acfe98139c4c472e32d9f8637df729dc8d3e5056b7a851f862ae24c3071d",
+      "newline": "LF"
+    },
+    {
+      "path": "tests/test_music_xml_regressions.py",
+      "sha256": "cfce7bb7e312e9ef58b077f31efd2f5442ece93a87a61ee636339ad4f9b5b35d",
+      "newline": "LF"
+    },
+    {
+      "path": "tests/test_staff_parsing.py",
+      "sha256": "1e12c1e2b8fe1d48299fe43c4b6acfe627fe51e601e22d714142074605643b42",
+      "newline": "LF"
+    },
+    {
+      "path": "tests/test_vocabulary_regressions.py",
+      "sha256": "7c7bb0f417f499c5fe481a4fc1c8f09ffd1c2764d62d0bf20b9e527ba473534d",
+      "newline": "LF"
+    }
+  ],
+  "models": [
+    {
+      "path": "homr/segmentation/segnet_308-3296ccd40960f90ca6ab9c035cca945675d30a0f.onnx",
+      "sha256": "6ed36640db4ef5d223098b6d5efe4eda97c66b24a2c72faab8a018c749003a8d"
+    },
+    {
+      "path": "homr/transformer/decoder_pytorch_model_465-597144cab54c8f6d0f6c9619df5c5312694eadd6.onnx",
+      "sha256": "18801c1e3657bdea1b031db90b10d66e15accfc1d607780f09a9e059133e886a"
+    },
+    {
+      "path": "homr/transformer/encoder_pytorch_model_465-597144cab54c8f6d0f6c9619df5c5312694eadd6.onnx",
+      "sha256": "92bd18338dc8da3c9b00185008ab14719ff9f912efe785ca42d7b623e06e0c6b"
+    }
+  ],
+  "prepared_files": [
+    {
+      "path": ".cspell-dictionaries/english-extra.txt",
+      "sha256": "0b71bcb243bdd9387b0c89afc577cefc125783c077481d20b14929e28efdcfa1"
+    },
+    {
+      "path": ".cspell-dictionaries/python.txt",
+      "sha256": "333c450a0a34cc35b889007d2fbd278db844ff87d755324e71df3245edd2d163"
+    },
+    {
+      "path": ".cspell.json",
+      "sha256": "284a8929ec3b3d2e0c6c53419315a483a432e31b07c84ee970ebfabfd1259336"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "sha256": "427e99c7704dd4eca30ea886b43fc5cb82bce22969dbb616bbb3e8be6ef4aefa"
+    },
+    {
+      "path": ".github/workflows/main.yml",
+      "sha256": "264f214efaae5f2d9d7f0f1b0a59255619f762fe36e2ef4ee4295c4a37a56ea7"
+    },
+    {
+      "path": ".github/workflows/publish.yml",
+      "sha256": "2bcb91047b6e8def3033e03f52d6c942cf9393c1ca9b5e4bfed736b93da259c1"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "31bb69052b766b7476b1545259cdc766a65b95ec195d8cbe9a098cfcf1be6930"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "sha256": "e381ca5dda5c9927a40dfcb4d59b270b5df507e5784786e207759f6e1c5ff51f"
+    },
+    {
+      "path": ".vscode/launch.json",
+      "sha256": "91c55e1b9657b7233422343c54f6ca7b852c47572263f1db2526abe668313c09"
+    },
+    {
+      "path": ".vscode/settings.json",
+      "sha256": "7f78584bd0ec2ec7e970be08ce4cc46d164b12ad90ac785f8b954570b9cb13ba"
+    },
+    {
+      "path": "Benchmark.md",
+      "sha256": "881c5ff2d32f6bc2a72a6edbdb49ac47935666d68e0321d596ba1f481c4e16b1"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "b8e645ab9c93fbac6bde5e2e7c280c195f0e1916e3385265b053e6828070135a"
+    },
+    {
+      "path": "Changelog.md",
+      "sha256": "49508c54fb4b211860a6bf34a938ef5dffd0cc49933b1cb8db5526c0be9ab4cd"
+    },
+    {
+      "path": "IDEAS_FOR_CONTRIBUTORS.md",
+      "sha256": "9db1770e128ca2eedfea2b8429f8ca1ffaeba23c7857f9a81a32f2ce8678e345"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "a6de0dc64ada3b5141517c0167b109dfc2adb3d1d8b27ff1745f337331b2a5f4"
+    },
+    {
+      "path": "Makefile",
+      "sha256": "60fa56852cf95c086196c3d093ef41a2012961268938a76979ba8d0ec652ef9e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "3aa56227cfca845eb588732b6a9ea7474da4f4b2f5eda701c60177402b525f38"
+    },
+    {
+      "path": "Training.md",
+      "sha256": "aa55fd3972fbd76e14c361acdc2742d201ec7241422377c28a15d0833e182b2d"
+    },
+    {
+      "path": "Vocabulary.md",
+      "sha256": "bdf13678a0e694c0a15028cc84638371c6612526c0e9965d6b3827d99dc9f1a9"
+    },
+    {
+      "path": "colab.ipynb",
+      "sha256": "a1e5132a335fa4d9e1d60066b4d382ef61479a0525657c5da3924b83982e432c"
+    },
+    {
+      "path": "docker/Dockerfile",
+      "sha256": "f84a66c2b4d7b7d5a2f258ecbfd5ee57e7f5be450170f7cf46dfd743f75e3c44"
+    },
+    {
+      "path": "docker/Dockerfile.cuda",
+      "sha256": "2b3daa6b824bf70edf26cab5afcf56aa48a5dfb6682542429324c73b5329658c"
+    },
+    {
+      "path": "docker/Dockerfile.rocm",
+      "sha256": "23a5c7f609990c762dd8df8657409e3c6c157587ea49b169e8ccc0ae59456a83"
+    },
+    {
+      "path": "docker/requirements.txt",
+      "sha256": "930d4d4aff072ec7a884df04483cb03b9272f81aee83ebee14eb7b4684f3a3c8"
+    },
+    {
+      "path": "docker/web/app.py",
+      "sha256": "bb5f8b5fcb2b3fe32278fb217a6c159f19c959c03f298776b7893663c810c5c9"
+    },
+    {
+      "path": "docker/web/index.html",
+      "sha256": "1ac2089ad66de63c774c87a96bd50e2c1dc527cba91b97bddba4f261e42aef42"
+    },
+    {
+      "path": "docs/Makefile",
+      "sha256": "8b6587b859607f200f116e2cb043fc358e1c3a26c326b563bf348453cfc68307"
+    },
+    {
+      "path": "docs/conf.py",
+      "sha256": "5e93dd59cf32f41d6d3266fbe222863c5387b3b2e64ff98a0376f35e3c9da3a0"
+    },
+    {
+      "path": "docs/index.rst",
+      "sha256": "9deb2abb3984b97a197ee6b63b2944164c7fdd841d4145d6657fe2df4bcd6701"
+    },
+    {
+      "path": "docs/make.bat",
+      "sha256": "bca6b3244f115b8f42cbc2bb866f1061b95eb6f01df1891e2ac68f03f7569d7b"
+    },
+    {
+      "path": "docs/source/libs.rst",
+      "sha256": "6c5454aa51e1086b183e20dbe48a25db918687be31d76b5a8c28d21f4885b39c"
+    },
+    {
+      "path": "figures/tabi.musicxml",
+      "sha256": "53cfa70a3b4a304efaf1c9672b6ab0964b81f4ece86c0e38e4278c39de955335"
+    },
+    {
+      "path": "figures/tabi.svg",
+      "sha256": "b460417c52a292d13e083df5127acfffedf11a25d07feb4142c2540a692ee05d"
+    },
+    {
+      "path": "homr/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "homr/autocrop.py",
+      "sha256": "95a82139febff04a7530e4b074b85c2a52d7ab2a6e668b349799f5af969ed725"
+    },
+    {
+      "path": "homr/bar_line_detection.py",
+      "sha256": "0fd0ec988d240842a72348770769ef1a2c3a47a95da8996017aed04455589a6d"
+    },
+    {
+      "path": "homr/bounding_boxes.py",
+      "sha256": "cf5c27212f3b9763dd460cbefe99fd0a66e8f7bf53ea50d02d8849482a02a51f"
+    },
+    {
+      "path": "homr/brace_dot_detection.py",
+      "sha256": "ab5aade1a8653b3a44b300217404618f2bd8319d34173e7cd4dc26d66d45a7b7"
+    },
+    {
+      "path": "homr/circle_of_fifths.py",
+      "sha256": "3974ab21de851225a3f23f27868165c9b9ea9730984c3589ef180f1162056ae9"
+    },
+    {
+      "path": "homr/color_adjust.py",
+      "sha256": "01d971bded1397042bfa76ab9d691e6a3e6bf9bb4283f9d1dab382b0088d96fc"
+    },
+    {
+      "path": "homr/constants.py",
+      "sha256": "98d7114ec0509575e2b61ede66d7f42e8c0a90eb25aaa82ab7dd0e92e10fefa0"
+    },
+    {
+      "path": "homr/debug.py",
+      "sha256": "dc9e208c605389a967b58a4edee955bfa8ab559d2ac66cd3f677877c8c42b5b3"
+    },
+    {
+      "path": "homr/download_utils.py",
+      "sha256": "f2cd05ee4f03092da4135ed67404b6c2d3dd0048a41f8e7f3779a859a7b9a925"
+    },
+    {
+      "path": "homr/find_peaks.py",
+      "sha256": "6fd390137077cab7d64104931e3d06b0149581d7217b855ae4080addad21e8f2"
+    },
+    {
+      "path": "homr/image_utils.py",
+      "sha256": "b293ffad901fee69e11fcee672f2fc7aa61a44216143b95b8a916655400eea06"
+    },
+    {
+      "path": "homr/main.py",
+      "sha256": "5f89ec2b1780cce3cfb18ac93ef0b7767f171292fe50bab68bc9a9b3eee7596c"
+    },
+    {
+      "path": "homr/model.py",
+      "sha256": "c46a69c711d9eb8b1bf9d00f7046031ecd73a7788e8caaaa3c53ee08fe16f59e"
+    },
+    {
+      "path": "homr/music_xml_generator.py",
+      "sha256": "a947173acc64cbeac29c47d118c0addd65760a00b72166935ce2107360e2f8a7"
+    },
+    {
+      "path": "homr/noise_filtering.py",
+      "sha256": "0752bba4acca214407408b8f4e4f0540893e07a288f1272f3bfbd4395eca724b"
+    },
+    {
+      "path": "homr/note_detection.py",
+      "sha256": "7dc0b3f8038c47d5b4f263ae16b241ac358e12e2d13055aaa6593aaf0be1014b"
+    },
+    {
+      "path": "homr/onnx_providers.py",
+      "sha256": "f25106805b3dbf52878b13c0ef3dd78be63442aaf1ba9c0bae1830e9221d8fa7"
+    },
+    {
+      "path": "homr/pdf_utils.py",
+      "sha256": "d2bc574a128758dbdbdbc5ff1d1087a96cc8d3858bd6c8bf8a9e703180a5d017"
+    },
+    {
+      "path": "homr/point_mapping.py",
+      "sha256": "cce31c7e1e4d228641cb6503168c59d7e22371e5a361aec8a8029f576a07ad42"
+    },
+    {
+      "path": "homr/relieur.py",
+      "sha256": "f26dd41f459b421ba5704a98f4b2cea088fefc835a287fddd8d6af45c318626f"
+    },
+    {
+      "path": "homr/resize.py",
+      "sha256": "cc2ff7992ed5c2473529ab686912be8148c2a28059683362a6a346424cc97906"
+    },
+    {
+      "path": "homr/segmentation/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "homr/segmentation/config.py",
+      "sha256": "735c9ef5b30b9737221ca0ef31b4c28b04ee865f9885510da31fcad2c59df147"
+    },
+    {
+      "path": "homr/segmentation/inference_segnet.py",
+      "sha256": "ef5ca2cfad5175a3919bcfba5c7375928a9c4be6876fa8aca0496515aabbe813"
+    },
+    {
+      "path": "homr/segmentation/segnet_308-3296ccd40960f90ca6ab9c035cca945675d30a0f.onnx",
+      "sha256": "6ed36640db4ef5d223098b6d5efe4eda97c66b24a2c72faab8a018c749003a8d"
+    },
+    {
+      "path": "homr/simple_logging.py",
+      "sha256": "0a289e6deb8d55e0bcd709f4651246a417efb744447a9340b3cd5eb5669271ed"
+    },
+    {
+      "path": "homr/staff_detection.py",
+      "sha256": "5f0b0a4faff6275ca4a47e2f4a0a32e2c436321d2cf41fe2cd303747a032589e"
+    },
+    {
+      "path": "homr/staff_dewarping.py",
+      "sha256": "6b44e0b843e40c1fc7399d88b696707dea17f5b425418da40d66418d41d9752c"
+    },
+    {
+      "path": "homr/staff_parsing.py",
+      "sha256": "10e3615e2dee2f30a0151e4050e60cc693378a6485e1ac4a99932ad86bd549f5"
+    },
+    {
+      "path": "homr/staff_parsing_tromr.py",
+      "sha256": "96456c2feb7c306dd056e5ab59f170b4a19bbee7d22fa214965856cfe85669e4"
+    },
+    {
+      "path": "homr/staff_position_save_load.py",
+      "sha256": "5e44ada123fa9dd65fadf0fa684db2cce8468cdeba880f9dfb9367e20f175fb0"
+    },
+    {
+      "path": "homr/staff_regions.py",
+      "sha256": "58fb2f8b5fa8a22c8570b1cd2f0a8dde364642b641060434e759892862a85c01"
+    },
+    {
+      "path": "homr/title_detection.py",
+      "sha256": "93d8c60bd5c79c989a30ed920e66422f59b25c503872461409614065159b4bea"
+    },
+    {
+      "path": "homr/transformer/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "homr/transformer/configs.py",
+      "sha256": "2fdac1d1b961c8a5304d6ff34891848469507217c467aa313e8fd2d98385fc64"
+    },
+    {
+      "path": "homr/transformer/decoder_inference.py",
+      "sha256": "22f482b4d70455820ad2be96fccbb09cdbcd36c6f9f37235662e968989a5802b"
+    },
+    {
+      "path": "homr/transformer/decoder_pytorch_model_465-597144cab54c8f6d0f6c9619df5c5312694eadd6.onnx",
+      "sha256": "18801c1e3657bdea1b031db90b10d66e15accfc1d607780f09a9e059133e886a"
+    },
+    {
+      "path": "homr/transformer/encoder_inference.py",
+      "sha256": "27851bd0719d703218def26d8c830dbb708788f7e6b968662a6538ce0fd7b602"
+    },
+    {
+      "path": "homr/transformer/encoder_pytorch_model_465-597144cab54c8f6d0f6c9619df5c5312694eadd6.onnx",
+      "sha256": "92bd18338dc8da3c9b00185008ab14719ff9f912efe785ca42d7b623e06e0c6b"
+    },
+    {
+      "path": "homr/transformer/staff2score.py",
+      "sha256": "ef6bc035a497c440b52f4d31b2757361a97dcc91ad1c7656d1fda7649a319e0c"
+    },
+    {
+      "path": "homr/transformer/tokenizer_lift.json",
+      "sha256": "acebcd85936f2d2c4b8d67c2a90bb487a327e7eeca3b889896469f34d5157f85"
+    },
+    {
+      "path": "homr/transformer/tokenizer_note.json",
+      "sha256": "be294c8adb4febeb93a1e257c7aa35ac34e5298071afa8f2af8d1cf5a33eae20"
+    },
+    {
+      "path": "homr/transformer/tokenizer_pitch.json",
+      "sha256": "66ce099b2d3fcbdf7269d2600198628af8548bd410ec6a9ac478db7007ec9933"
+    },
+    {
+      "path": "homr/transformer/tokenizer_rhythm.json",
+      "sha256": "3e64ccafd628436439e664aac40ea3820982cbd90171c9895d2c7cf2b9efb76e"
+    },
+    {
+      "path": "homr/transformer/utils.py",
+      "sha256": "4ac26b2a45b94c573c7c1b5d261f8ef49986c18fad508d0cc295812307d340da"
+    },
+    {
+      "path": "homr/transformer/vocabulary.py",
+      "sha256": "ff77c48437443681471a91eff28177076438edcf2134bfb6811e69b201a04397"
+    },
+    {
+      "path": "homr/type_definitions.py",
+      "sha256": "f98c9ac820aae6c81b384c676a9c7848093723756c2f3628f8950c97a18fa3bb"
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "afa976caad1ceeab0c0cd08e575053449507b225792bcfd8aa71d9edb2495516"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "d9dbb40092325dc46a991c9192f9431b0fdd2f51f31a7dd482cd3bc9de9f29ca"
+    },
+    {
+      "path": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/test_bounding_boxes.py",
+      "sha256": "c862530dccd994b5f323a41b0d9583e04007ef965e6be6a6d9ac764240db8789"
+    },
+    {
+      "path": "tests/test_circle_of_fifths.py",
+      "sha256": "41e14f7e86e9a2e8c13ca99ad165ccc0efab5a7cf5e81137ea42034a6e2ae85d"
+    },
+    {
+      "path": "tests/test_cli_regressions.py",
+      "sha256": "a1f0e8b68971a46a8be5c4920c94cc25abfa3d2fed27750230cc77d8d6f258a5"
+    },
+    {
+      "path": "tests/test_decoder_safety.py",
+      "sha256": "d134acfe98139c4c472e32d9f8637df729dc8d3e5056b7a851f862ae24c3071d"
+    },
+    {
+      "path": "tests/test_humdrum_kern_parser.py",
+      "sha256": "82bdee3323ac0f9c7c4217881004592ca5b344c67c8454d64da098a407d4bd86"
+    },
+    {
+      "path": "tests/test_mix_datasets.py",
+      "sha256": "4bd34a1147e97e5ab23663c9644775d27666322b9c6310d5586ebd62249fd0bd"
+    },
+    {
+      "path": "tests/test_model.py",
+      "sha256": "109eea07326b47384cdce1294dc5cc9be808ff89ff882812c6eb08aff270c4a7"
+    },
+    {
+      "path": "tests/test_music_xml_generator.py",
+      "sha256": "3794f59b9b54fd34172fb293dd414660a6468b3a21d2c0e953cdc421cf7a92a6"
+    },
+    {
+      "path": "tests/test_music_xml_parser.py",
+      "sha256": "6715d27b7b399fef17f682fac90d88d23f7191e54152bc1f42499806a059f994"
+    },
+    {
+      "path": "tests/test_music_xml_regressions.py",
+      "sha256": "cfce7bb7e312e9ef58b077f31efd2f5442ece93a87a61ee636339ad4f9b5b35d"
+    },
+    {
+      "path": "tests/test_ned_score.py",
+      "sha256": "6bdb44d650ba9b5d0262a5450b5c2846f3ac17d1bea901941e220379ffee2dfd"
+    },
+    {
+      "path": "tests/test_poetry_config.py",
+      "sha256": "899a88807ff2702036d72c7e36d6bcc0c0a757209d0564b72c778060538d1202"
+    },
+    {
+      "path": "tests/test_point_mapping.py",
+      "sha256": "70b206dc5868c63682b026cc7eeba9b980561aec27d515c29ebf4bcee88a10bf"
+    },
+    {
+      "path": "tests/test_primus_semantic_parser.py",
+      "sha256": "b04f688332250b29aa13c0e64b85e7576b3fdad71972b51a6b10de92f163e8c8"
+    },
+    {
+      "path": "tests/test_staff_detection.py",
+      "sha256": "8bf4c6f40240f08f841da5fab45c067e4ac1043778aad52322a4d161456193b0"
+    },
+    {
+      "path": "tests/test_staff_merging.py",
+      "sha256": "c3ad9d5658c374f54c43df39e8b0d7258bcb13afc6f8253f783209948c802feb"
+    },
+    {
+      "path": "tests/test_staff_parsing.py",
+      "sha256": "1e12c1e2b8fe1d48299fe43c4b6acfe627fe51e601e22d714142074605643b42"
+    },
+    {
+      "path": "tests/test_staff_regions.py",
+      "sha256": "77856d066870f66c625bb7b51613eee96d2ce93991c4f2979ad622385e163fcb"
+    },
+    {
+      "path": "tests/test_training_vocabulary.py",
+      "sha256": "d753dc3f387aafa1c1775d85cc887d3db971012533e32f6639aff43847b35fab"
+    },
+    {
+      "path": "tests/test_vocabulary.py",
+      "sha256": "2875b57ecd16ed3bc6a6f4dcd08f265c139c73c0177ea430a6cc3281e2fbcbce"
+    },
+    {
+      "path": "tests/test_vocabulary_regressions.py",
+      "sha256": "7c7bb0f417f499c5fe481a4fc1c8f09ffd1c2764d62d0bf20b9e527ba473534d"
+    },
+    {
+      "path": "training/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/architecture/segmentation/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/architecture/segmentation/model.py",
+      "sha256": "93b8cc79d96805a84548132057fc4f715e7676bb5fa8f33dc95944218b5472f7"
+    },
+    {
+      "path": "training/architecture/transformer/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/architecture/transformer/custom_x_transformer.py",
+      "sha256": "9cfd001df1fef14b18e5ec095ddff2b1f038303253e8b112bb79b01e23e994d3"
+    },
+    {
+      "path": "training/architecture/transformer/decoder.py",
+      "sha256": "83b972bc59d4e82d8094cf565b705dfdbecb96a9b80976b34fb405aa6b59b838"
+    },
+    {
+      "path": "training/architecture/transformer/encoder.py",
+      "sha256": "b0027750cecba8d322d3d077bddc60ef171db3eb6cc6600b623fbd2a0d5a75be"
+    },
+    {
+      "path": "training/architecture/transformer/staff2score.py",
+      "sha256": "0b6930136132eb2f8a260d65f6cf40ece420de2fef9957ff3fd900437ecbe277"
+    },
+    {
+      "path": "training/architecture/transformer/tromr_arch.py",
+      "sha256": "e0f6d571eb89e46a1c598b2396745090cd888c8cd4e2c7370ae517354ca39109"
+    },
+    {
+      "path": "training/download.py",
+      "sha256": "346c11a45b4cb21ec2ba5491c38954c3cd8dd8f0dcab42840b5485c9cd3b1f81"
+    },
+    {
+      "path": "training/omr_datasets/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/omr_datasets/convert_grandstaff.py",
+      "sha256": "ba9a5ba412c5cfa55bb3e92473c846dd4c0143ea61b2c1a8d91373db30c09f25"
+    },
+    {
+      "path": "training/omr_datasets/convert_lieder.py",
+      "sha256": "ef773f22740c9b1d6a0b3f64fe4a723a9817d099bda057092488f4d34e547c79"
+    },
+    {
+      "path": "training/omr_datasets/convert_musetrainer.py",
+      "sha256": "6e0bbefaf1daa6b6b1f05c6615238f813f5bded18d6f0f7eb601ce06496ad59c"
+    },
+    {
+      "path": "training/omr_datasets/convert_pdmx.py",
+      "sha256": "c4b2c2a77bc11ca099f9f1412e36bcf2d90ff06339866c249947a375f311890d"
+    },
+    {
+      "path": "training/omr_datasets/convert_primus.py",
+      "sha256": "4c37b153c1f0876c4b00a164cddb5b840f055e780f486f13a3e6c67195f81414"
+    },
+    {
+      "path": "training/omr_datasets/filter_from_index.py",
+      "sha256": "0d8ab3de87623e24828876f0a29d22da4eec8b884a98f39cfb544732b4a19d02"
+    },
+    {
+      "path": "training/omr_datasets/humdrum_kern_parser.py",
+      "sha256": "325d61fdb7778534706cc9ae990934764b12378aa11874c116b75efde11ab863"
+    },
+    {
+      "path": "training/omr_datasets/musescore_svg.py",
+      "sha256": "2be88035fe212527f1c095ecb0054c528a96f4d7fbf20ce826bda5e1849e8bb2"
+    },
+    {
+      "path": "training/omr_datasets/music21_kern_parser.py",
+      "sha256": "75e322329d5839e0380ea54f608bd4d4299c83721de25e9707697e1d76a9d58d"
+    },
+    {
+      "path": "training/omr_datasets/music21_xml_parser.py",
+      "sha256": "ccd22e0aa8c2c622f5926fa3330a7dbc2a92ddf666c31174beb03b460668f22c"
+    },
+    {
+      "path": "training/omr_datasets/music_xml_parser.py",
+      "sha256": "52b3959aef114f9afc8e21de476822ddc6f2c3d08c34a4c8d0c7018e46dc20d1"
+    },
+    {
+      "path": "training/omr_datasets/primus_semantic_parser.py",
+      "sha256": "286f1eb04854839fd3758b4fcb753f5fdac009617ba66bdc019b439c48078284"
+    },
+    {
+      "path": "training/omr_datasets/staff_merging.py",
+      "sha256": "8f358b56519f076cf65e59fe14a47ae5906425f5206f93d675f9770afe2885a1"
+    },
+    {
+      "path": "training/omr_datasets/unzip_datasets.py",
+      "sha256": "9ead832daf1f70877bff40dac9b2775da1cba23f07fb73c11e2586d1b7eceb9c"
+    },
+    {
+      "path": "training/omr_datasets/zip_datasets.py",
+      "sha256": "6990848453a2c48098ac0f5c6c4d467cac2f287bab3bf1c164514f649de90743"
+    },
+    {
+      "path": "training/onnx/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/onnx/convert.py",
+      "sha256": "81c59db99f88aea44fc2855b7dbc1a5895db85f9f283f7de417d67e768ad0a61"
+    },
+    {
+      "path": "training/onnx/fuse.py",
+      "sha256": "8c5645828add7b983cee2162c533bf1fbcba8e36898b066c13db51f8dd5ea80e"
+    },
+    {
+      "path": "training/onnx/main.py",
+      "sha256": "d6846316f2404f9fba7d5c4ee898d67df6b1085d4b008df9733e0af8caa49a02"
+    },
+    {
+      "path": "training/onnx/quantization.py",
+      "sha256": "ff97f3c4ca53a3d97602526e3b840b1cd5816a2991e79ba467960245901ced69"
+    },
+    {
+      "path": "training/onnx/simplify.py",
+      "sha256": "933175482567f3122ab46e9e585e2c85d56c100356c28e999ef892c34e1ce22f"
+    },
+    {
+      "path": "training/onnx/split_weights.py",
+      "sha256": "c5d5e40531f0d3dcff6d39ccf4203ee48e5e1abc6a2b399616a7d8e2807181f4"
+    },
+    {
+      "path": "training/run_id.py",
+      "sha256": "eeaa505846bdfd7bfcc2ae897bea4871dde272900298a7a75b8d97d7eacb7917"
+    },
+    {
+      "path": "training/segmentation/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/segmentation/build_label.py",
+      "sha256": "794e11633da80b09bde04138feb39e277513b184221cc8861f1a8e298841e029"
+    },
+    {
+      "path": "training/segmentation/dense_dataset_definitions.py",
+      "sha256": "2be6d2a9723e25ce40397bd4429943bcb308bcbc2a4cf6c1a28decd81b8a6524"
+    },
+    {
+      "path": "training/segmentation/train.py",
+      "sha256": "d5894b3fbf6982a8694641a80b48ae604d6e94fe6f20466f0b2a36fc698623fa"
+    },
+    {
+      "path": "training/show_examples_from_index.py",
+      "sha256": "ee55bdddd6a46dcb6d49d9d11a85ce72d78ad72fcf8955da076fb0af9d80df6a"
+    },
+    {
+      "path": "training/train.py",
+      "sha256": "57f3b899f0dd1e34ad29f13fc44b1b33a7e611f755f8477eedd75e625a426009"
+    },
+    {
+      "path": "training/transformer/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "training/transformer/augraphy_augment.py",
+      "sha256": "5c30d9d5c86129f68850012bec25f0c8282867dbdb32981feedb7a093113061b"
+    },
+    {
+      "path": "training/transformer/data_loader.py",
+      "sha256": "dad164d9964f1cace140b7ec8bc7ae1b67c8d1ff7fca1e26e9107cc61c75fdc1"
+    },
+    {
+      "path": "training/transformer/distribute.py",
+      "sha256": "0f0db7e82cc9befd35610a66998b403be0d9dc729a422c6a0faf5ce4cbd10d01"
+    },
+    {
+      "path": "training/transformer/image_utils.py",
+      "sha256": "f4eb04b86293595476cb5fbd7cfb043ca0178a27cd238e5361107a4045a862ac"
+    },
+    {
+      "path": "training/transformer/metrics.py",
+      "sha256": "2449705a9ca83b1f7e9ab24917544491f5318a0eb77ec5b5f67f77d23e4415fb"
+    },
+    {
+      "path": "training/transformer/mix_datasets.py",
+      "sha256": "190bbb70de9d4ac4dc5de2c4fedefe5bfd2ad444b7e93fb804632f4f89cbe3a9"
+    },
+    {
+      "path": "training/transformer/train.py",
+      "sha256": "ced03800ae140a73c432c84ac78acd2c698a4d717509ae994966c4f4c745acb8"
+    },
+    {
+      "path": "training/transformer/training_vocabulary.py",
+      "sha256": "1722e6ac99be2adfc4104d92dda509d141e5129f0c1596a977b66ce6844825dc"
+    },
+    {
+      "path": "training/validate_music_xml_conversion.py",
+      "sha256": "c3d09d4f59e30a7c26bd980b5a7e56f58980d61d1aa5d368dffa1d1f403645fd"
+    },
+    {
+      "path": "validation/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "validation/benchmark_db.py",
+      "sha256": "86b2170ee03242ba729739f9652ed722b48937966024534109a94a2cacdcab6f"
+    },
+    {
+      "path": "validation/compare_parsers.py",
+      "sha256": "9de856b46ab76c4359a252ee46b6eb996e2c056a2cd069fa7a0fe7cd7fb24cf3"
+    },
+    {
+      "path": "validation/ned_benchmark.py",
+      "sha256": "80e32911344cee8d557c770938b8a01c21238e58111e2ee50d78f191cb0f98af"
+    },
+    {
+      "path": "validation/ned_score.py",
+      "sha256": "d2b07f2d138698ba1ae7e9b30c0bd7b0b6064d2d999c65e429ed9aec49fedee1"
+    },
+    {
+      "path": "validation/polish-scores.py",
+      "sha256": "15e2c97da5976c10d7104a0970ddf5e3da5e7b80100db71136e7e7910cc0d00a"
+    },
+    {
+      "path": "validation/polish-scores_homr.db",
+      "sha256": "504c713a4296c2b7a50022c9105ffd96578fe9f3ff9d0e6f97fac3f8f1c34dff"
+    },
+    {
+      "path": "validation/rate_validation_result.py",
+      "sha256": "470968055b71c541b302d544cea1031da1bba4431b6dd84efbba354de21901ef"
+    },
+    {
+      "path": "validation/report.py",
+      "sha256": "18d7b47113e596e851b048bd9f1a80abc104a8a9fdfbc1a8917ee6ecf40a4cff"
+    },
+    {
+      "path": "validation/show_diff.py",
+      "sha256": "43cff254616dfd13b1af009bb7b5255e7f94db73c889f3aab84987dc3f7adfe2"
+    },
+    {
+      "path": "validation/smb.py",
+      "sha256": "615ce678068ea42537984b95aab4666db14e2709a7f3252078bdc6cae38672b7"
+    },
+    {
+      "path": "validation/symbol_error_rate_torch.py",
+      "sha256": "a6e4ef0ce91216d5688e6ceb5c33199989254301692fb2156e012cacdf4f3b85"
+    },
+    {
+      "path": "validation/tools.py",
+      "sha256": "d1c42ebd65f87d332116f71394deabf2489bee76d7a77be85934acadb4250667"
+    }
+  ]
+}

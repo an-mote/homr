@@ -98,6 +98,9 @@ def _ensure_same_number_of_staffs(staffs: list[MultiStaff]) -> list[MultiStaff]:
     core is exactly what's needed to discover the real, larger repeating pattern from
     scratch - that's the case this function was originally written for, and it is never
     already uniform at a row length above 1.
+
+    Reject a periodic core that would discard detected edge staffs: a layout
+    mismatch can be a real introduction or coda, not evidence of blank music.
     """
     row_lengths = {len(multi_staff.staffs) for multi_staff in staffs}
     if len(row_lengths) == 1 and next(iter(row_lengths)) > 1:
@@ -106,15 +109,11 @@ def _ensure_same_number_of_staffs(staffs: list[MultiStaff]) -> list[MultiStaff]:
     core = _find_periodic_core(flat_staffs)
     if core is not None:
         period, front_trim, back_trim = core
-        if front_trim > 0:
-            eprint(
-                f"Removing the first {front_trim} staff(s), as they don't fit "
-                "the staff layout the rest of the page repeats"
-            )
-        if back_trim > 0:
-            eprint(
-                f"Removing the last {back_trim} staff(s), as they don't fit "
-                "the staff layout the rest of the page repeats"
+        if front_trim > 0 or back_trim > 0:
+            raise ValueError(
+                "Inconsistent staff layout would discard "
+                f"{front_trim} leading and {back_trim} trailing staff(s). "
+                "Verify the detected staff positions before recognition."
             )
         if period > 1:
             eprint(
@@ -388,7 +387,13 @@ def parse_staffs(
     page_to_input_image maps the coordinates of image back to the image the user provided,
     it's used to fill EncodedSymbol.image_coordinates.
     """
+    if not staffs or any(not staff.staffs for staff in staffs):
+        raise ValueError("No staff systems available for recognition")
     staffs = _ensure_same_number_of_staffs(staffs)
+    if selected_staff >= len(staffs):
+        raise ValueError(
+            f"Selected staff {selected_staff} is outside {len(staffs)} detected system(s)"
+        )
     # For simplicity we call every staff in a multi staff a voice,
     # even if it's part of a grand staff.
     number_of_voices = _get_number_of_voices(staffs)
@@ -403,13 +408,15 @@ def parse_staffs(
                 eprint("Ignoring staff due to selected_staff argument", i)
                 i += 1
                 continue
-            result_staff = parse_staff_image(
-                debug, i, staff, image, regions, config, page_to_input_image
-            )
-            if len(result_staff) == 0:
-                eprint("Skipping empty staff", i)
-                i += 1
-                continue
+            location = f"Staff {i} (system {staff_index}, voice {voice}, y={staff.min_y:.1f})"
+            try:
+                result_staff = parse_staff_image(
+                    debug, i, staff, image, regions, config, page_to_input_image
+                )
+            except Exception as error:
+                raise ValueError(f"{location}: {type(error).__name__}: {error}") from error
+            if not any(symbol.rhythm.startswith(("note_", "rest_")) for symbol in result_staff):
+                raise ValueError(f"{location}: recognition returned no notes or rests")
             result_staff.append(EncodedSymbol("newline"))
             result_for_voice.extend(result_staff)
             i += 1

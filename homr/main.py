@@ -2,6 +2,7 @@ import argparse
 import glob
 import os
 import sys
+import tempfile
 import xml.etree.ElementTree as ET
 from concurrent.futures import Future
 from dataclasses import dataclass
@@ -180,6 +181,21 @@ class ProcessingConfig:
     title_detection: bool
 
 
+def _write_xml_atomically(xml: ET.Element, output_path: str) -> None:
+    """Keep the previous result intact if serialization or replacement fails."""
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            dir=os.path.dirname(os.path.abspath(output_path)), suffix=".xml.tmp", delete=False
+        ) as temporary:
+            temporary_path = temporary.name
+            ET.ElementTree(xml).write(temporary, encoding="UTF-8", xml_declaration=True)
+        os.replace(temporary_path, output_path)
+    finally:
+        if temporary_path is not None and os.path.exists(temporary_path):
+            os.remove(temporary_path)
+
+
 def process_image(
     image_path: str,
     config: ProcessingConfig,
@@ -227,12 +243,15 @@ def process_image(
         )
 
         if not config.read_staff_positions:
-            title = title_future.result(60)
+            try:
+                title = title_future.result(60)
+            except Exception as error:
+                eprint(f"Title detection failed: {type(error).__name__}: {error!r}; keeping music")
+                title = ""
         eprint("Found title:", title)
 
         eprint("Writing XML", result_staffs)
         xml = generate_xml(xml_generator_args, result_staffs, title)
-        ET.ElementTree(xml).write(xml_file, encoding="unicode", xml_declaration=True)
 
         eprint("Finished parsing " + str(len(result_staffs)) + " staves")
         teaser_file = replace_extension(image_path, "_teaser.png")
@@ -242,11 +261,8 @@ def process_image(
         debug.write_teaser(teaser_file, multi_staffs)
         debug.clean_debug_files_from_previous_runs()
 
+        _write_xml_atomically(xml, xml_file)
         eprint("Result was written to", xml_file)
-    except:
-        if os.path.exists(xml_file):
-            os.remove(xml_file)
-        raise
     finally:
         if debug_cleanup is not None:
             debug_cleanup.clean_debug_files_from_previous_runs()
@@ -386,6 +402,8 @@ def run_homr(
     Runs homr on all images in a list and merges them into musicxml using relieur
     """
     eprint("Merging", len(images), "files:", images)
+    if not images:
+        raise ValueError("No images to process")
     xml_paths = []
     for image_file in images:
         eprint("=========================================")
@@ -393,17 +411,21 @@ def run_homr(
             xml_paths.append(process_image(image_file, config, xml_generator_args))
             eprint("Finished", image_file)
         except Exception as e:
-            eprint(f"An error occurred while processing {image_file}: {e}")
-            return  # Don't need to continue (save time)
+            eprint(f"An error occurred while processing {image_file}: {type(e).__name__}: {e!r}")
+            raise
 
     if len(xml_paths) == len(images) and len(xml_paths) > 1:
+        filename = os.path.splitext(os.path.basename(images[0]))[0]
+        output_path = os.path.join(os.path.dirname(images[0]), f"{filename}_merged.musicxml")
+        page_paths = {os.path.normcase(os.path.realpath(path)) for path in xml_paths}
+        suffix = 2
+        while os.path.normcase(os.path.realpath(output_path)) in page_paths:
+            output_path = os.path.join(
+                os.path.dirname(images[0]), f"{filename}_merged_{suffix}.musicxml"
+            )
+            suffix += 1
         m, _, _ = process_concat(xml_paths)
-        for path in xml_paths:
-            if os.path.exists(path):
-                os.remove(path)
-        filename = os.path.splitext(images[0])[0]
-        output_path = f"{filename}.musicxml"
-        ET.ElementTree(m).write(output_path, encoding="UTF-8", xml_declaration=True)
+        _write_xml_atomically(m, output_path)
 
         eprint(f"Saved the generated musicxml at {output_path}")
 
@@ -516,6 +538,7 @@ def main() -> None:
         sys.exit(1)
 
     images_to_combine = []
+    had_errors = False
     for image in args.image:
         if os.path.isfile(image):
             # Multiple files are getting merged
@@ -539,9 +562,13 @@ def main() -> None:
                         process_image(image_file, config, xml_generator_args)
                     eprint("Finished", image_file)
                 except Exception as e:
-                    eprint(f"An error occurred while processing {image_file}: {e}")
+                    eprint(
+                        f"An error occurred while processing {image_file}: "
+                        f"{type(e).__name__}: {e!r}"
+                    )
                     error_files.append(image_file)
             if len(error_files) > 0:
+                had_errors = True
                 eprint("Errors occurred while processing the following files:", error_files)
 
         else:
@@ -556,6 +583,9 @@ def main() -> None:
         except InvalidProgramArgumentException as e:
             eprint(str(e))
             sys.exit(2)
+
+    if had_errors:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 import copy
 import itertools
+import json
 import random
 import re
 from fractions import Fraction
@@ -320,12 +321,17 @@ class EncodedSymbol:
         return self.rhythm in ("BOS", "EOS", "PAD")
 
     def is_tuplet(self) -> bool:
+        if re.fullmatch(r"rest_\d+m", self.rhythm):
+            return False
         no_tuplet = self.remove_tuplet()
         return no_tuplet.rhythm != self.rhythm
 
     def remove_tuplet(self) -> "EncodedSymbol":
         match = re.match(r"(note|rest)_(\d+)(.*)", self.rhythm)
         if not match:
+            return self
+        # 多小节休止符的数字是小节数量，不是连音分母。
+        if match[1] == "rest" and match[3] == "m":
             return self
         duration = int(match[2])
         if duration % 3 == 0:
@@ -601,8 +607,35 @@ def _fix_over_eager_tuplets(chords: list[list[EncodedSymbol]]) -> list[list[Enco
     result = []
     for i, measure in enumerate(measures):
         if _get_duration_of_measure(measure) < mean:
-            eprint("Removing tuplets from measure #", i + 1)
-            result.append(_remove_tuplets(measure))
+            cleaned = _remove_tuplets(measure)
+            changes = []
+            for chord_index, (before_chord, after_chord) in enumerate(
+                zip(measure, cleaned, strict=True)
+            ):
+                for symbol_index, (before, after) in enumerate(
+                    zip(before_chord, after_chord, strict=True)
+                ):
+                    if before.rhythm == after.rhythm:
+                        continue
+                    coordinates = before.image_coordinates
+                    changes.append(
+                        {
+                            "measure": i + 1,
+                            "chord_index": chord_index,
+                            "symbol_index": symbol_index,
+                            "before": str(before),
+                            "after": str(after),
+                            "position": before.position,
+                            "image_coordinates": (
+                                [float(value) for value in coordinates]
+                                if coordinates is not None
+                                else None
+                            ),
+                        }
+                    )
+            if changes:
+                eprint("Tuplet cleanup changes:", json.dumps(changes))
+            result.append(cleaned)
         else:
             result.append(measure)
     return _flatten_measures(result)

@@ -1,0 +1,18 @@
+{
+  "upstream_commit": "863eb3c6487f3c6fe50267fb71613f05162bb7c5",
+  "weight_policy": "沿用原版 ONNX 权重，未包含第 200 步实验微调权重",
+  "models": [
+    {
+      "path": "homr/segmentation/segnet_308-3296ccd40960f90ca6ab9c035cca945675d30a0f.onnx",
+      "sha256": "6ed36640db4ef5d223098b6d5efe4eda97c66b24a2c72faab8a018c749003a8d"
+    },
+    {
+      "path": "homr/transformer/decoder_pytorch_model_465-597144cab54c8f6d0f6c9619df5c5312694eadd6.onnx",
+      "sha256": "18801c1e3657bdea1b031db90b10d66e15accfc1d607780f09a9e059133e886a"
+    },
+    {
+      "path": "homr/transformer/encoder_pytorch_model_465-597144cab54c8f6d0f6c9619df5c5312694eadd6.onnx",
+      "sha256": "92bd18338dc8da3c9b00185008ab14719ff9f912efe785ca42d7b623e06e0c6b"
+    }
+  ]
+}
